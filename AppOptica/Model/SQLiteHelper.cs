@@ -12,7 +12,7 @@ namespace AppOptica.Model
 {
     public class SQLiteHelper
     {
-        private static string connectionString = ConfigurationManager.ConnectionStrings["AtunConnection"].ConnectionString;
+        private static string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AppOptica.db");
         private static SQLiteHelper _instance = null;
 
         public static SQLiteHelper Instance
@@ -27,24 +27,27 @@ namespace AppOptica.Model
             }
         }
 
+        private SQLiteConnection GetConnection()
+        {
+            return new SQLiteConnection($"Data Source={databasePath};Version=3;");
+        }
+
         public bool AgregarPersona(Persona persona)
         {
             bool exito = true;
 
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = GetConnection())
             {
                 connection.Open();
                 string query = "INSERT INTO Personas (PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Direccion, Cedula) VALUES (@primerNombre, @segundoNombre, @primerApellido, @segundoApellido, @direccion, @cedula)";
 
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                cmd.Parameters.Add(new SQLiteParameter("@primerNombre", persona.PrimerNombre));
-                cmd.Parameters.Add(new SQLiteParameter("@segundoNombre", persona.SegundoNombre));
-                cmd.Parameters.Add(new SQLiteParameter("@primerApellido", persona.PrimerApellido));
-                cmd.Parameters.Add(new SQLiteParameter("@segundoApellido", persona.SegundoApellido));
-                cmd.Parameters.Add(new SQLiteParameter("@direccion", persona.Direccion));
-                cmd.Parameters.Add(new SQLiteParameter("@cedula", persona.Cedula));
-
-                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@primerNombre", persona.PrimerNombre);
+                cmd.Parameters.AddWithValue("@segundoNombre", persona.SegundoNombre);
+                cmd.Parameters.AddWithValue("@primerApellido", persona.PrimerApellido);
+                cmd.Parameters.AddWithValue("@segundoApellido", persona.SegundoApellido);
+                cmd.Parameters.AddWithValue("@direccion", persona.Direccion);
+                cmd.Parameters.AddWithValue("@cedula", persona.Cedula);
 
                 if (cmd.ExecuteNonQuery() < 1)
                 {
@@ -59,12 +62,11 @@ namespace AppOptica.Model
         {
             List<Persona> listaPersonas = new List<Persona>();
 
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = GetConnection())
             {
                 connection.Open();
                 string query = "SELECT Id, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Direccion, Cedula FROM Personas";
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                cmd.CommandType = System.Data.CommandType.Text;
 
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
@@ -87,23 +89,14 @@ namespace AppOptica.Model
             return listaPersonas;
         }
 
-        public List<Persona> CargarPersonasDesdeBaseDeDatos()
-        {
-            return ObtenerPersonas();
-        }
-
         internal void InitializeDatabase()
         {
-            using (var db = GetConnection())
+            using (SQLiteConnection connection = GetConnection())
             {
-                // Verificar si la tabla existe
-                var tableExists = db.GetTableInfo("Personas").Any();
-
-                // Si la tabla no existe, créala
-                if (!tableExists)
-                {
-                    db.CreateTable<Persona>();
-                }
+                connection.Open();
+                string createTableQuery = "CREATE TABLE IF NOT EXISTS Personas (Id INTEGER PRIMARY KEY AUTOINCREMENT, PrimerNombre  VARCHAR, SegundoNombre VARCHAR, PrimerApellido VARCHAR, SegundoApellido VARCHAR, Direccion VARCHAR, Cedula VARCHAR)";
+                SQLiteCommand cmd = new SQLiteCommand(createTableQuery, connection);
+                cmd.ExecuteNonQuery();
             }
         }
     }

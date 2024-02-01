@@ -13,6 +13,7 @@ namespace AppOptica.Model
         public InicioViewModel(ObservableCollection<Persona> personas)
         {
             this.personas = personas ?? throw new ArgumentNullException(nameof(personas));
+            CargarPersonasDesdeBaseDeDatos();
         }
 
         public void AgregarPersona(Persona persona)
@@ -43,7 +44,7 @@ namespace AppOptica.Model
             try
             {
                 // Obtén las personas de la base de datos y agrégales a la lista
-                var personasDesdeBD = SQLiteHelper.Instance.CargarPersonasDesdeBaseDeDatos();
+                var personasDesdeBD = SQLiteHelper.Instance.ObtenerPersonas();
                 foreach (var persona in personasDesdeBD)
                 {
                     personas.Add(persona);
