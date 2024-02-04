@@ -32,22 +32,24 @@ namespace AppOptica.Model
             return new SQLiteConnection($"Data Source={databasePath};Version=3;");
         }
 
-        public bool AgregarPersona(Persona persona)
+        public bool AgregarCliente(Cliente cliente)
         {
             bool exito = true;
 
             using (SQLiteConnection connection = GetConnection())
             {
                 connection.Open();
-                string query = "INSERT INTO Personas (PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Direccion, Cedula) VALUES (@primerNombre, @segundoNombre, @primerApellido, @segundoApellido, @direccion, @cedula)";
+                string query = "INSERT INTO Clientes (FechaR, PNC, SNC, PAC, SAC, TelC, DirC, Ocupacion) VALUES (@fechaR, @pnc, @snc, @pac, @sac, @telC, @dirC, @ocupacion)";
 
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                cmd.Parameters.AddWithValue("@primerNombre", persona.PrimerNombre);
-                cmd.Parameters.AddWithValue("@segundoNombre", persona.SegundoNombre);
-                cmd.Parameters.AddWithValue("@primerApellido", persona.PrimerApellido);
-                cmd.Parameters.AddWithValue("@segundoApellido", persona.SegundoApellido);
-                cmd.Parameters.AddWithValue("@direccion", persona.Direccion);
-                cmd.Parameters.AddWithValue("@cedula", persona.Cedula);
+                cmd.Parameters.AddWithValue("@fechaR", cliente.FechaR);
+                cmd.Parameters.AddWithValue("@pnc", cliente.PNC);
+                cmd.Parameters.AddWithValue("@snc", cliente.SNC);
+                cmd.Parameters.AddWithValue("@pac", cliente.PAC);
+                cmd.Parameters.AddWithValue("@sac", cliente.SAC);
+                cmd.Parameters.AddWithValue("@telC", cliente.TelC);
+                cmd.Parameters.AddWithValue("@dirC", cliente.DirC);
+                cmd.Parameters.AddWithValue("@ocupacion", cliente.Ocupacion);
 
                 if (cmd.ExecuteNonQuery() < 1)
                 {
@@ -58,35 +60,37 @@ namespace AppOptica.Model
             return exito;
         }
 
-        public List<Persona> ObtenerPersonas()
+        public List<Cliente> ObtenerClientes()
         {
-            List<Persona> listaPersonas = new List<Persona>();
+            List<Cliente> listaClientes = new List<Cliente>();
 
             using (SQLiteConnection connection = GetConnection())
             {
                 connection.Open();
-                string query = "SELECT Id, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Direccion, Cedula FROM Personas";
+                string query = "SELECT Cliente_ID, FechaR, PNC, SNC, PAC, SAC, TelC, DirC, Ocupacion FROM Clientes";
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
 
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        listaPersonas.Add(new Persona()
+                        listaClientes.Add(new Cliente()
                         {
-                            Id = int.Parse(reader["Id"].ToString()),
-                            PrimerNombre = reader["PrimerNombre"].ToString(),
-                            SegundoNombre = reader["SegundoNombre"].ToString(),
-                            PrimerApellido = reader["PrimerApellido"].ToString(),
-                            SegundoApellido = reader["SegundoApellido"].ToString(),
-                            Direccion = reader["Direccion"].ToString(),
-                            Cedula = reader["Cedula"].ToString()
+                            Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
+                            FechaR = DateTime.Parse(reader["FechaR"].ToString()),
+                            PNC = reader["PNC"].ToString(),
+                            SNC = reader["SNC"].ToString(),
+                            PAC = reader["PAC"].ToString(),
+                            SAC = reader["SAC"].ToString(),
+                            TelC = reader["TelC"].ToString(),
+                            DirC = reader["DirC"].ToString(),
+                            Ocupacion = reader["Ocupacion"].ToString()
                         });
                     }
                 }
             }
 
-            return listaPersonas;
+            return listaClientes;
         }
 
         internal void InitializeDatabase()
@@ -94,7 +98,7 @@ namespace AppOptica.Model
             using (SQLiteConnection connection = GetConnection())
             {
                 connection.Open();
-                string createTableQuery = "CREATE TABLE IF NOT EXISTS Personas (Id INTEGER PRIMARY KEY AUTOINCREMENT, PrimerNombre  VARCHAR, SegundoNombre VARCHAR, PrimerApellido VARCHAR, SegundoApellido VARCHAR, Direccion VARCHAR, Cedula VARCHAR)";
+                string createTableQuery = "CREATE TABLE IF NOT EXISTS Clientes (Cliente_ID INTEGER PRIMARY KEY AUTOINCREMENT, FechaR DATETIME, PNC VARCHAR(15) NOT NULL, SNC VARCHAR(15), PAC VARCHAR(15) NOT NULL, SAC VARCHAR(15), TelC VARCHAR(8), DirC VARCHAR(75) NOT NULL, Ocupacion VARCHAR(35) NOT NULL)";
                 SQLiteCommand cmd = new SQLiteCommand(createTableQuery, connection);
                 cmd.ExecuteNonQuery();
             }

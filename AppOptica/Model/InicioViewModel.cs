@@ -3,56 +3,69 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Diagnostics;
+using System.ComponentModel;
+
 
 namespace AppOptica.Model
 {
-    public class InicioViewModel
+    public class InicioViewModel :INotifyPropertyChanged
     {
-        ObservableCollection<Persona> personas;
+        ObservableCollection<Cliente> clientes;
+        
 
-        public InicioViewModel(ObservableCollection<Persona> personas)
+        public InicioViewModel(ObservableCollection<Cliente> clientes)
         {
-            this.personas = personas ?? throw new ArgumentNullException(nameof(personas));
-            CargarPersonasDesdeBaseDeDatos();
+            this.clientes = clientes ?? throw new ArgumentNullException(nameof(clientes));
+            CargarClientesDesdeBaseDeDatos();
         }
 
-        public void AgregarPersona(Persona persona)
+
+        public void AgregarCliente(Cliente cliente)
         {
             try
             {
-                // Llamas al método AgregarPersona de SQLiteHelper.Instance
-                bool exito = SQLiteHelper.Instance.AgregarPersona(persona);
+                // Llamas al método AgregarCliente de SQLiteHelper.Instance
+                bool exito = SQLiteHelper.Instance.AgregarCliente(cliente);
 
                 if (exito)
                 {
+                    clientes.Clear();
                     // Solo si la inserción en la base de datos fue exitosa, actualizas la lista con los datos recién insertados
-                    personas.Add(persona);
+                    clientes.Add(cliente);
+                    OnPropertyChanged(nameof(cliente));
+
                 }
                 else
                 {
-                    Debug.WriteLine("Error al agregar persona en la base de datos.");
+                    Debug.WriteLine("Error al agregar clientes en la base de datos.");
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error al agregar persona: {ex.Message}");
+                Debug.WriteLine($"Error al agregar cliente: {ex.Message}");
             }
         }
 
-        public void CargarPersonasDesdeBaseDeDatos()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public void CargarClientesDesdeBaseDeDatos()
         {
             try
             {
-                // Obtén las personas de la base de datos y agrégales a la lista
-                var personasDesdeBD = SQLiteHelper.Instance.ObtenerPersonas();
-                foreach (var persona in personasDesdeBD)
+                // Obtén los clientes de la base de datos y agrégales a la lista
+                var clientesDb = SQLiteHelper.Instance.ObtenerClientes();
+                foreach (var cliente in clientesDb)
                 {
-                    personas.Add(persona);
+                    clientes.Add(cliente);
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error al cargar personas desde la base de datos: {ex.Message}");
+                Debug.WriteLine($"Error al cargar clientes desde la base de datos: {ex.Message}");
             }
         }
     }

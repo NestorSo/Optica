@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppOptica.Forms.Inicio"
@@ -18,16 +17,17 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Entry x:Name="PrimerNombreEntry" Placeholder="Primer Nombre" Grid.Row="0" Grid.Column="0" />
-        <Entry x:Name="SegundoNombreEntry" Placeholder="Segundo Nombre" Grid.Row="0" Grid.Column="1" />
-        <Entry x:Name="PrimerApellidoEntry" Placeholder="Primer Apellido" Grid.Row="0" Grid.Column="2" />
-        <Entry x:Name="SegundoApellidoEntry" Placeholder="Segundo Apellido" Grid.Row="0" Grid.Column="3" />
-        <Entry x:Name="DireccionEntry" Placeholder="Dirección" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
-        <Entry x:Name="CedulaEntry" Placeholder="Cédula" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" />
+        <Entry x:Name="PrimerNombreEntry" Placeholder="Primer Nombre" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0"/>
+        <Entry x:Name="SegundoNombreEntry" Placeholder="Segundo Nombre" Grid.Row="0" Grid.Column="1" Margin="5,0,0,0"/>
+        <Entry x:Name="PrimerApellidoEntry" Placeholder="Primer Apellido" Grid.Row="0" Grid.Column="2" Margin="0,0,5,0"/>
+        <Entry x:Name="SegundoApellidoEntry" Placeholder="Segundo Apellido" Grid.Row="0" Grid.Column="3" Margin="5,0,0,0"/>
+        <Entry x:Name="DireccionEntry" Placeholder="Dirección" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,5,5,0" />
+        <Entry x:Name="TelefonoEntry" Placeholder="Teléfono" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="5,5,5,0"/>
+        <Entry x:Name="OcupacionEntry" Placeholder="Ocupación" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
 
-        <Button Text="Agregar a la tabla" Clicked="OnAgregarClicked" Grid.Row="2" Grid.ColumnSpan="4" Margin="0,10,0,0" />
+        <Button Text="Agregar a la tabla" Clicked="OnAgregarClicked" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Margin="0,5,0,0" />
 
-        <ListView x:Name="PersonasListView" Grid.Row="3" Grid.ColumnSpan="4">
+        <ListView x:Name="ClientesListView" Grid.Row="3" Grid.ColumnSpan="4" Margin="0,10,0,0">
             <ListView.Header>
                 <Border Stroke="#000000" StrokeThickness="1" Background="#D3D3D3" Padding="5">
                     <Grid>
@@ -38,13 +38,19 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Text="Primer Nombre" TextColor="Black" Grid.Column="0" />
-                        <Label Text="Segundo Nombre" TextColor="Black" Grid.Column="1" />
-                        <Label Text="Primer Apellido" TextColor="Black" Grid.Column="2" />
-                        <Label Text="Segundo Apellido" TextColor="Black" Grid.Column="3" />
-                        <Label Text="Dirección" TextColor="Black" Grid.Column="4" />
-                        <Label Text="Cédula" TextColor="Black" Grid.Column="5" />
+                        <Label Text="ID" TextColor="Black" Grid.Column="0" Margin="5"/>
+                        <Label Text="Fecha Registro" TextColor="Black" Grid.Column="1" Margin="5"/>
+                        <Label Text="Primer Nombre" TextColor="Black" Grid.Column="2" Margin="5"/>
+                        <Label Text="Segundo Nombre" TextColor="Black" Grid.Column="3" Margin="5"/>
+                        <Label Text="Primer Apellido" TextColor="Black" Grid.Column="4" Margin="5"/>
+                        <Label Text="Segundo Apellido" TextColor="Black" Grid.Column="5" Margin="5"/>
+                        <Label Text="Telefono" TextColor="Black" Grid.Column="6" Margin="5"/>
+                        <Label Text="Direccion" TextColor="Black" Grid.Column="7" Margin="5"/>
+                        <Label Text="Ocupacion" TextColor="Black" Grid.Column="8" Margin="5"/>
                     </Grid>
                 </Border>
             </ListView.Header>
@@ -59,31 +65,41 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Text="{Binding PrimerNombre}" Grid.Column="0" HorizontalOptions="Center" />
+                            <Label Text="{Binding Cliente_ID}" Grid.Column="0" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding FechaR}" Grid.Column="1" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding PNC}" Grid.Column="2" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding SNC}" Grid.Column="3" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding PAC}" Grid.Column="4" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding SAC}" Grid.Column="5" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding TelC}" Grid.Column="6" HorizontalOptions="Center" />
                             <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
 
-                            <Label Text="{Binding SegundoNombre}" Grid.Column="1" HorizontalOptions="Center" />
+                            <Label Text="{Binding DirC}" Grid.Column="7" HorizontalOptions="Center" />
                             <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
 
-                            <Label Text="{Binding PrimerApellido}" Grid.Column="2" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
-
-                            <Label Text="{Binding SegundoApellido}" Grid.Column="3" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
-
-                            <Label Text="{Binding Direccion}" Grid.Column="4" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
-
-                            <Label Text="{Binding Cedula}" Grid.Column="5" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+                            <Label Text="{Binding Ocupacion}" Grid.Column="8" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
-
         </ListView>
     </Grid>
 </ContentPage>

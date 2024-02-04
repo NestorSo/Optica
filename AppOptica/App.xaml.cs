@@ -1,6 +1,9 @@
 ﻿using AppOptica.Forms;
 using AppOptica.Model;
+using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+
 namespace AppOptica
 {
     public partial class App : Application
@@ -17,12 +20,11 @@ namespace AppOptica
             SQLiteHelper.Instance.InitializeDatabase();
 
             // Crear instancia de InicioViewModel
-            viewModel = new InicioViewModel(new ObservableCollection<Persona>());
+            viewModel = new InicioViewModel(new ObservableCollection<Cliente>());
 
-            // Cargar personas desde la base de datos al inicio de la aplicación
-            viewModel.CargarPersonasDesdeBaseDeDatos();
+            // Cargar clientes desde la base de datos al inicio de la aplicación
+            viewModel.CargarClientesDesdeBaseDeDatos();
         }
-
 
         protected override void OnStart()
         {
@@ -31,11 +33,10 @@ namespace AppOptica
             // Inicialización única de la base de datos
 
             // Crear instancia de InicioViewModel
-            viewModel = new InicioViewModel(new ObservableCollection<Persona>());
+            viewModel = new InicioViewModel(new ObservableCollection<Cliente>());
 
-            // Cargar personas desde la base de datos al inicio de la aplicación
-            viewModel.CargarPersonasDesdeBaseDeDatos();
+            // Cargar clientes desde la base de datos al inicio de la aplicación
+            viewModel.CargarClientesDesdeBaseDeDatos();
         }
     }
-
 }
