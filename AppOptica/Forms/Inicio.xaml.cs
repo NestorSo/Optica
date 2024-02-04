@@ -14,6 +14,7 @@ public partial class Inicio : ContentPage
 
         viewModel = new InicioViewModel(Clientes);
 
+
         ClientesListView.ItemsSource = Clientes;
     }
 
