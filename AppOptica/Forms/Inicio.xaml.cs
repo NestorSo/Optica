@@ -56,6 +56,17 @@ public partial class Inicio : ContentPage
         }
         viewModel.CargarClientesDesdeBaseDeDatos();
     }
+
+    void OnActualizarClicked(object sender, EventArgs e)
+    {
+        // Código para actualizar
+    }
+
+    void OnEliminarClicked(object sender, EventArgs e)
+    {
+        // Código para eliminar
+    }
+
     private bool ValidatePhoneNumberAndNotEmpty(string phoneNumber)
     {
         // Verifica si el número de teléfono es válido
