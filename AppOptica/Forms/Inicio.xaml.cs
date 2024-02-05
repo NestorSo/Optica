@@ -56,6 +56,28 @@ public partial class Inicio : ContentPage
         }
         viewModel.CargarClientesDesdeBaseDeDatos();
     }
+
+    //private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+    //{
+    //    if (e.SelectedItem == null)
+    //        return; // No hay selección, salir
+
+    //    // Obtener el cliente seleccionado del evento
+    //    Cliente clienteSeleccionado = (Cliente)e.SelectedItem;
+
+    //    // Asignar los valores del cliente a los Entry respectivos
+    //    PrimerNombreEntry.Text = clienteSeleccionado.PNC;
+    //    SegundoNombreEntry.Text = clienteSeleccionado.SNC;
+    //    PrimerApellidoEntry.Text = clienteSeleccionado.PAC;
+    //    SegundoApellidoEntry.Text = clienteSeleccionado.SAC;
+    //    DireccionEntry.Text = clienteSeleccionado.DirC;
+    //    TelefonoEntry.Text = clienteSeleccionado.TelC;
+    //    OcupacionEntry.Text = clienteSeleccionado.Ocupacion;
+
+    //    // Desmarcar la selección del ListView
+    //    ClientesListView.SelectedItem = null;
+    //}
+
     private bool ValidatePhoneNumberAndNotEmpty(string phoneNumber)
     {
         // Verifica si el número de teléfono es válido
