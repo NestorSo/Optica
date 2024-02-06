@@ -22,7 +22,7 @@
         <Entry x:Name="S_Client" Placeholder="Buscar Cliente" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0"/>
         <Entry x:Name="Id_Client" Placeholder="Cliente Id" Grid.Row="1" Grid.Column="0" Margin="5,0,0,0"/>
         <Entry x:Name="Motivo_E" Placeholder="Motivo" Grid.Row="1" Grid.Column="1" Margin="0,0,5,0"/>
-        <Entry x:Name="Antecedentes_E" Placeholder="Antecedentes" Grid.Row="1" Grid.Column="2" Margin="5,0,0,0"/>
+        <Entry x:Name="Antecedentes_E" Placeholder="Antecedentes" Grid.Row="1" Grid.Column="3" Margin="5,0,0,0"/>
         <Entry x:Name="OD_E" Placeholder="OD" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,5,5,0" />
         <Entry x:Name="OI_E" Placeholder="OI" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="5,5,5,0"/>
         <Entry x:Name="ADD_E" Placeholder="ADD_" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,5,5,0"/>
@@ -31,8 +31,9 @@
         <Entry x:Name="TipoL" Placeholder="TipoL" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
 
         <Button Text="Agregar" Clicked="OnAgregarClicked" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
-        <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,5,0,0" />
-        <Button Text="Eliminar" Clicked="OnEliminarClicked" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3" Margin="0,5,0,0" />
+        <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
+        <Button Text="Eliminar" Clicked="OnEliminarClicked" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
+        <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
 
         <ListView x:Name="lvConsulta" Grid.Row="4" Grid.ColumnSpan="5" Margin="0,10,0,0">
             <ListView.Header>

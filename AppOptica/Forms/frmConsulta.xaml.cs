@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace AppOptica.Forms;
 
 public partial class frmConsulta : ContentPage
@@ -21,4 +23,9 @@ public partial class frmConsulta : ContentPage
     {
         // Código para eliminar
     }
+    private async void OnRegresarClicked(object sender, EventArgs e)
+    {
+        await Navigation.PopModalAsync();
+    }
+
 }

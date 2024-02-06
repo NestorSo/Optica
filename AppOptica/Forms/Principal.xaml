@@ -1,0 +1,16 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppOptica.Forms.Principal"
+             Title="Principal">
+
+    <StackLayout>
+        <Label Text="¡Bienvenido a la Aplicación Optica!" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+
+        <Label x:Name="HoraLabel" Grid.Column="3" Grid.Row= "0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+
+        <Button Text="Ir a Inicio" Clicked="OnIrAInicioClicked" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
+        <Button Text="Ir a Consulta" Clicked="OnIrAConsultaClicked" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
+        <Button Text="Salir" Clicked="OnSalirClicked" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
+    </StackLayout>
+
+</ContentPage>

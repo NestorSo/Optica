@@ -1,5 +1,6 @@
 using AppOptica.Model;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace AppOptica.Forms;
@@ -55,6 +56,11 @@ public partial class Inicio : ContentPage
             OcupacionEntry.Text = string.Empty;
         }
         viewModel.CargarClientesDesdeBaseDeDatos();
+    }
+    private async void OnRegresarClicked(object sender, EventArgs e)
+    {
+        
+        await Navigation.PopModalAsync();
     }
 
     //private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)

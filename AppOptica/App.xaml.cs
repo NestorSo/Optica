@@ -14,7 +14,7 @@ namespace AppOptica
         {
             InitializeComponent();
 
-            MainPage = new Inicio();
+            MainPage = new Principal();
 
             // Inicialización única de la base de datos
             SQLiteHelper.Instance.InitializeDatabase();
