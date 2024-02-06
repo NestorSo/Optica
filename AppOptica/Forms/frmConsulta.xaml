@@ -1,0 +1,123 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppOptica.Forms.frmConsulta"
+             Title="frmConsulta">
+
+    <Grid Padding="20" RowSpacing="10" ColumnSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Entry x:Name="S_Client" Placeholder="Buscar Cliente" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0"/>
+        <Entry x:Name="Id_Client" Placeholder="Cliente Id" Grid.Row="1" Grid.Column="0" Margin="5,0,0,0"/>
+        <Entry x:Name="Motivo_E" Placeholder="Motivo" Grid.Row="1" Grid.Column="1" Margin="0,0,5,0"/>
+        <Entry x:Name="Antecedentes_E" Placeholder="Antecedentes" Grid.Row="1" Grid.Column="2" Margin="5,0,0,0"/>
+        <Entry x:Name="OD_E" Placeholder="OD" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,5,5,0" />
+        <Entry x:Name="OI_E" Placeholder="OI" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="5,5,5,0"/>
+        <Entry x:Name="ADD_E" Placeholder="ADD_" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,5,5,0"/>
+        <Entry x:Name="DIP_E" Placeholder="DIP" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Margin="5,5,5,0"/>
+        <Entry x:Name="Altura_E" Placeholder="Altura" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="1" Margin="5,5,5,0"/>
+        <Entry x:Name="TipoL" Placeholder="TipoL" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
+
+        <Button Text="Agregar" Clicked="OnAgregarClicked" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
+        <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+        <Button Text="Eliminar" Clicked="OnEliminarClicked" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3" Margin="0,5,0,0" />
+
+        <ListView x:Name="lvConsulta" Grid.Row="4" Grid.ColumnSpan="5" Margin="0,10,0,0">
+            <ListView.Header>
+                <Border Stroke="#000000" StrokeThickness="1" Background="#D3D3D3" Padding="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="ID" TextColor="Black" Grid.Column="0" Margin="5"/>
+                        <Label Text="Fecha Registro" TextColor="Black" Grid.Column="1" Margin="5"/>
+                        <Label Text="ID_Client" TextColor="Black" Grid.Column="2" Margin="5"/>
+                        <Label Text="Motivo" TextColor="Black" Grid.Column="3" Margin="5"/>
+                        <Label Text="Antecedentes" TextColor="Black" Grid.Column="4" Margin="5"/>
+                        <Label Text="OD" TextColor="Black" Grid.Column="5" Margin="5"/>
+                        <Label Text="OI" TextColor="Black" Grid.Column="6" Margin="5"/>
+                        <Label Text="TipoL" TextColor="Black" Grid.Column="7" Margin="5"/>
+                        <Label Text="ADD" TextColor="Black" Grid.Column="8" Margin="5"/>
+                        <Label Text="DIP" TextColor="Black" Grid.Column="9" Margin="5"/>
+                        <Label Text="Altura" TextColor="Black" Grid.Column="10" Margin="5"/>
+                    </Grid>
+                </Border>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding ID_Consulta}" Grid.Column="0" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding FechaC}" Grid.Column="1" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding Cliente_ID}" Grid.Column="2" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding Motivo}" Grid.Column="3" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding Antecedentes}" Grid.Column="4" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding OD}" Grid.Column="5" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding OI}" Grid.Column="6" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+
+                            <Label Text="{Binding TipoL}" Grid.Column="7" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+
+                            <Label Text="{Binding ADD}" Grid.Column="8" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding DIP}" Grid.Column="9" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="10" VerticalOptions="End" />
+
+                            <Label Text="{Binding Altura}" Grid.Column="10" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="11" VerticalOptions="End" />
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>
