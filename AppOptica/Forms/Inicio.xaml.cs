@@ -55,13 +55,70 @@ public partial class Inicio : ContentPage
             TelefonoEntry.Text = string.Empty;
             OcupacionEntry.Text = string.Empty;
         }
+        
+        Clientes.Clear();
+
+        // Limpiar los Entry después de la actualización
+        LimpiarEntry();
+
+        // Actualizar la lista de clientes en el ListView
         viewModel.CargarClientesDesdeBaseDeDatos();
+        OnPropertyChanged(nameof(Clientes));
     }
 
     void OnActualizarClicked(object sender, EventArgs e)
     {
+        //Verificar si se ha seleccionado un cliente en el ListView
+        if (viewModel.ClienteSeleccionado == null)
+        {
+            DisplayAlert("Error", "Selecciona un cliente para actualizar", "OK");
+            return;
+        }
+
+        // Obtener el Cliente_ID del cliente seleccionado
+        int clienteId = viewModel.ClienteSeleccionado.Cliente_ID;
+
+        // Crear una nueva instancia de Cliente con los datos actualizados
+        Cliente clienteActualizado = new Cliente
+        {
+            Cliente_ID = clienteId, // Usar el Cliente_ID obtenido
+            FechaR = DateTime.Now,
+            PNC = PrimerNombreEntry.Text,
+            SNC = SegundoNombreEntry.Text,
+            PAC = PrimerApellidoEntry.Text,
+            SAC = SegundoApellidoEntry.Text,
+            TelC = TelefonoEntry.Text,
+            DirC = DireccionEntry.Text,
+            Ocupacion = OcupacionEntry.Text
+        };
+        Clientes.Clear();
+        // Llamar al método para actualizar el cliente en el modelo de vista
+        viewModel.ActualizarCliente(clienteActualizado);
+
+        // Limpiar los Entry después de la actualización
+        LimpiarEntry();
+
+        // Actualizar la lista de clientes en el ListView
+        viewModel.CargarClientesDesdeBaseDeDatos();
+        OnPropertyChanged(nameof(Clientes));
 
     }
+
+
+
+
+    void LimpiarEntry()
+    {
+        // Limpiar los Entry
+        PrimerNombreEntry.Text = string.Empty;
+        SegundoNombreEntry.Text = string.Empty;
+        PrimerApellidoEntry.Text = string.Empty;
+        SegundoApellidoEntry.Text = string.Empty;
+        TelefonoEntry.Text = string.Empty;
+        DireccionEntry.Text = string.Empty;
+        OcupacionEntry.Text = string.Empty;
+    }
+
 
 
     void OnEliminarClicked(object sender, EventArgs e)
@@ -75,26 +132,33 @@ public partial class Inicio : ContentPage
         await Navigation.PopModalAsync();
     }
 
-    //private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-    //{
-    //    if (e.SelectedItem == null)
-    //        return; // No hay selección, salir
+    private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        if (e.SelectedItem == null)
+            return;
 
-    //    // Obtener el cliente seleccionado del evento
-    //    Cliente clienteSeleccionado = (Cliente)e.SelectedItem;
+        // Obtener el cliente seleccionado del evento
+        Cliente clienteSeleccionado = (Cliente)e.SelectedItem;
 
-    //    // Asignar los valores del cliente a los Entry respectivos
-    //    PrimerNombreEntry.Text = clienteSeleccionado.PNC;
-    //    SegundoNombreEntry.Text = clienteSeleccionado.SNC;
-    //    PrimerApellidoEntry.Text = clienteSeleccionado.PAC;
-    //    SegundoApellidoEntry.Text = clienteSeleccionado.SAC;
-    //    DireccionEntry.Text = clienteSeleccionado.DirC;
-    //    TelefonoEntry.Text = clienteSeleccionado.TelC;
-    //    OcupacionEntry.Text = clienteSeleccionado.Ocupacion;
+        // Asignar los valores del cliente a los Entry respectivos
+        PrimerNombreEntry.Text = clienteSeleccionado.PNC;
+        SegundoNombreEntry.Text = clienteSeleccionado.SNC;
+        PrimerApellidoEntry.Text = clienteSeleccionado.PAC;
+        SegundoApellidoEntry.Text = clienteSeleccionado.SAC;
+        DireccionEntry.Text = clienteSeleccionado.DirC;
+        TelefonoEntry.Text = clienteSeleccionado.TelC;
+        OcupacionEntry.Text = clienteSeleccionado.Ocupacion;
+        IDEntry.Text = clienteSeleccionado.Cliente_ID.ToString();
 
-    //    // Desmarcar la selección del ListView
-    //    ClientesListView.SelectedItem = null;
-    //}
+        // Actualizar la propiedad ClienteSeleccionado en el ViewModel
+        viewModel.ClienteSeleccionado = clienteSeleccionado;
+
+        // Desmarcar la selección del ListView
+        ClientesListView.SelectedItem = null;
+    }
+
+
+
 
     private bool ValidatePhoneNumberAndNotEmpty(string phoneNumber)
     {
