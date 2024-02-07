@@ -57,6 +57,18 @@ public partial class Inicio : ContentPage
         }
         viewModel.CargarClientesDesdeBaseDeDatos();
     }
+
+    void OnActualizarClicked(object sender, EventArgs e)
+    {
+
+    }
+
+
+    void OnEliminarClicked(object sender, EventArgs e)
+    {
+
+    }
+
     private async void OnRegresarClicked(object sender, EventArgs e)
     {
         

@@ -3,14 +3,37 @@
              x:Class="AppOptica.Forms.Principal"
              Title="Principal">
 
-    <StackLayout>
-        <Label Text="¡Bienvenido a la Aplicación Optica!" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+    <Grid Padding="150" RowSpacing="10" ColumnSpacing="10">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <Label x:Name="HoraLabel" Grid.Column="3" Grid.Row= "0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.ColumnSpan="2" Margin="0,5,0,0" />
 
-        <Button Text="Ir a Inicio" Clicked="OnIrAInicioClicked" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
-        <Button Text="Ir a Consulta" Clicked="OnIrAConsultaClicked" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
-        <Button Text="Salir" Clicked="OnSalirClicked" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
-    </StackLayout>
+        <Label Text="¡Bienvenido a la Aplicación Optica!" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" FontAutoScalingEnabled="False" FontSize="Large" FontFamily="Urbani" />
+
+        <Image Source="dotnet_bot.png" Grid.Column="2" Grid.Row="1" Grid.RowSpan="5"/>
+
+        <Label x:Name="HoraLabel" Grid.Column="0" Grid.Row= "4" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.ColumnSpan="5" Margin="0,5,0,0" Grid.RowSpan="4" FontSize="Large" FontFamily="Urbani" />
+
+        <Button Text="Ir a Inicio" Clicked="OnIrAInicioClicked" Grid.Column="1" Grid.Row="8" Margin="0,5,0,0" Grid.ColumnSpan="1" VerticalOptions="End" FontFamily="Urbani"/>
+        <Button Text="Ir a Consulta" Clicked="OnIrAConsultaClicked" Grid.Column="2" Grid.Row="8" Margin="0,5,0,0" Grid.ColumnSpan="1" VerticalOptions="End" FontFamily="Urbani"/>
+        <Button Text="Salir" Clicked="OnSalirClicked" Grid.Column="3" Grid.Row="8" Margin="0,5,0,0" Grid.ColumnSpan="1" VerticalOptions="End" FontFamily="Urbani"/>
+
+        
+    </Grid>
 
 </ContentPage>
