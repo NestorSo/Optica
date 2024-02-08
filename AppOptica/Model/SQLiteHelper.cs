@@ -55,6 +55,7 @@ namespace AppOptica.Model
                 {
                     exito = false;
                 }
+                connection.Close();
             }
 
             return exito;
@@ -88,6 +89,7 @@ namespace AppOptica.Model
                             Ocupacion = reader["Ocupacion"].ToString()
                         });
                     }
+                    connection.Close();
                 }
             }
 
@@ -131,7 +133,7 @@ namespace AppOptica.Model
                 connection.Open();
 
                 // Crear la tabla Cliente
-                string createTableClienteQuery = "CREATE TABLE IF NOT EXISTS Cliente (Cliente_ID INTEGER PRIMARY KEY AUTOINCREMENT, FechaR DATETIME, PNC VARCHAR(15) NOT NULL, SNC VARCHAR(15), PAC VARCHAR(15) NOT NULL, SAC VARCHAR(15), TelC VARCHAR(8), DirC VARCHAR(75) NOT NULL, Ocupacion VARCHAR(35) NOT NULL)";
+                string createTableClienteQuery = "CREATE TABLE IF NOT EXISTS Clientes (Cliente_ID INTEGER PRIMARY KEY AUTOINCREMENT, FechaR DATETIME, PNC VARCHAR(15) NOT NULL, SNC VARCHAR(15), PAC VARCHAR(15) NOT NULL, SAC VARCHAR(15), TelC VARCHAR(8), DirC VARCHAR(75) NOT NULL, Ocupacion VARCHAR(35) NOT NULL)";
                 SQLiteCommand cmdCliente = new SQLiteCommand(createTableClienteQuery, connection);
                 cmdCliente.ExecuteNonQuery();
 
