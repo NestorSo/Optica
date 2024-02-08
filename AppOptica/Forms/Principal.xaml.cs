@@ -9,6 +9,7 @@ namespace AppOptica.Forms
         {
             InitializeComponent();
             StartTimer();
+
         }
         private void StartTimer()
         {

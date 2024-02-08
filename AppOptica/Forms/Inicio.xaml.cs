@@ -21,85 +21,85 @@ public partial class Inicio : ContentPage
 
     void OnAgregarClicked(object sender, EventArgs e)
     {
-        //if (viewModel == null)
-        //{
-        //    viewModel = new InicioViewModel(Clientes);
-        //    ClientesListView.ItemsSource = Clientes;
-        //}
+        if (viewModel == null)
+        {
+            viewModel = new InicioViewModel(Clientes);
+            ClientesListView.ItemsSource = Clientes;
+        }
 
 
-        //var telefono = TelefonoEntry.Text;
+        var telefono = TelefonoEntry.Text;
 
-        //// Realiza la validación del número de teléfono solo al presionar el botón de agregar
-        //if (ValidatePhoneNumberAndNotEmpty(telefono))
-        //{
-        //    var cliente = new Cliente
-        //    {
-        //        FechaR = DateTime.Now,
-        //        PNC = PrimerNombreEntry.Text,
-        //        SNC = SegundoNombreEntry.Text,
-        //        PAC = PrimerApellidoEntry.Text,
-        //        SAC = SegundoApellidoEntry.Text,
-        //        TelC = telefono,
-        //        DirC = DireccionEntry.Text,
-        //        Ocupacion = OcupacionEntry.Text
-        //    };
+        // Realiza la validación del número de teléfono solo al presionar el botón de agregar
+        if (ValidatePhoneNumberAndNotEmpty(telefono))
+        {
+            var cliente = new Cliente
+            {
+                FechaR = DateTime.Now,
+                PNC = PrimerNombreEntry.Text,
+                SNC = SegundoNombreEntry.Text,
+                PAC = PrimerApellidoEntry.Text,
+                SAC = SegundoApellidoEntry.Text,
+                TelC = telefono,
+                DirC = DireccionEntry.Text,
+                Ocupacion = OcupacionEntry.Text
+            };
 
-        //    viewModel.AgregarCliente(cliente);
+            viewModel.AgregarCliente(cliente);
 
-        //    PrimerNombreEntry.Text = string.Empty;
-        //    SegundoNombreEntry.Text = string.Empty;
-        //    PrimerApellidoEntry.Text = string.Empty;
-        //    SegundoApellidoEntry.Text = string.Empty;
-        //    DireccionEntry.Text = string.Empty;
-        //    TelefonoEntry.Text = string.Empty;
-        //    OcupacionEntry.Text = string.Empty;
-        //}
-        //Clientes.Clear();
+            PrimerNombreEntry.Text = string.Empty;
+            SegundoNombreEntry.Text = string.Empty;
+            PrimerApellidoEntry.Text = string.Empty;
+            SegundoApellidoEntry.Text = string.Empty;
+            DireccionEntry.Text = string.Empty;
+            TelefonoEntry.Text = string.Empty;
+            OcupacionEntry.Text = string.Empty;
+        }
+        Clientes.Clear();
 
-        //// Limpiar los Entry después de la actualización
-        //LimpiarEntry();
+        // Limpiar los Entry después de la actualización
+        LimpiarEntry();
 
-        //// Actualizar la lista de clientes en el ListView
-        //viewModel.CargarClientesDesdeBaseDeDatos();
-        //OnPropertyChanged(nameof(Clientes));
+        // Actualizar la lista de clientes en el ListView
+        viewModel.CargarClientesDesdeBaseDeDatos();
+        OnPropertyChanged(nameof(Clientes));
     }
 
     void OnActualizarClicked(object sender, EventArgs e)
     {
-    //    //Verificar si se ha seleccionado un cliente en el ListView
-    //    if (viewModel.ClienteSeleccionado == null)
-    //    {
-    //        DisplayAlert("Error", "Selecciona un cliente para actualizar", "OK");
-    //        return;
-    //    }
+        //Verificar si se ha seleccionado un cliente en el ListView
+        if (viewModel.ClienteSeleccionado == null)
+        {
+            DisplayAlert("Error", "Selecciona un cliente para actualizar", "OK");
+            return;
+        }
 
-    //    // Obtener el Cliente_ID del cliente seleccionado
-    //    int clienteId = viewModel.ClienteSeleccionado.Cliente_ID;
+        // Obtener el Cliente_ID del cliente seleccionado
+        int clienteId = viewModel.ClienteSeleccionado.Cliente_ID;
 
-    //    // Crear una nueva instancia de Cliente con los datos actualizados
-    //    Cliente clienteActualizado = new Cliente
-    //    {
-    //        Cliente_ID = clienteId, // Usar el Cliente_ID obtenido
-    //        FechaR = DateTime.Now,
-    //        PNC = PrimerNombreEntry.Text,
-    //        SNC = SegundoNombreEntry.Text,
-    //        PAC = PrimerApellidoEntry.Text,
-    //        SAC = SegundoApellidoEntry.Text,
-    //        TelC = TelefonoEntry.Text,
-    //        DirC = DireccionEntry.Text,
-    //        Ocupacion = OcupacionEntry.Text
-    //    };
-    //    Clientes.Clear();
-    //    // Llamar al método para actualizar el cliente en el modelo de vista
-    //    viewModel.ActualizarCliente(clienteActualizado);
+        // Crear una nueva instancia de Cliente con los datos actualizados
+        Cliente clienteActualizado = new Cliente
+        {
+            Cliente_ID = clienteId, // Usar el Cliente_ID obtenido
+            FechaR = DateTime.Now,
+            PNC = PrimerNombreEntry.Text,
+            SNC = SegundoNombreEntry.Text,
+            PAC = PrimerApellidoEntry.Text,
+            SAC = SegundoApellidoEntry.Text,
+            TelC = TelefonoEntry.Text,
+            DirC = DireccionEntry.Text,
+            Ocupacion = OcupacionEntry.Text
+        };
+        Clientes.Clear();
+        // Llamar al método para actualizar el cliente en el modelo de vista
+        viewModel.ActualizarCliente(clienteActualizado);
 
-    //    // Limpiar los Entry después de la actualización
-    //    LimpiarEntry();
+        // Limpiar los Entry después de la actualización
+        LimpiarEntry();
 
-    //    // Actualizar la lista de clientes en el ListView
-    //    viewModel.CargarClientesDesdeBaseDeDatos();
-    //    OnPropertyChanged(nameof(Clientes));
+        // Actualizar la lista de clientes en el ListView
+        viewModel.CargarClientesDesdeBaseDeDatos();
+        OnPropertyChanged(nameof(Clientes));
 
     }
 

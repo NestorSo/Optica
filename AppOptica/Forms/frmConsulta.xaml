@@ -20,7 +20,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Entry x:Name="S_Client" Placeholder="Buscar Cliente" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,0,5,0"/>
+        <Entry x:Name="S_Client" Placeholder="Buscar Cliente" Text="{Binding ClienteIdSeleccionado}" IsReadOnly="true"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,0,5,0" TextChanged="OnBuscarClienteTextChanged"/>
         <Entry x:Name="Id_Client" Placeholder="Cliente Id" Grid.Row="1" Grid.Column="0" Margin="5,0,0,0"/>
         <Entry x:Name="Motivo_E" Placeholder="Motivo" Grid.Row="1" Grid.Column="1" Margin="0,0,5,0"/>
         <Entry x:Name="Antecedentes_E" Placeholder="Antecedentes" Grid.Row="1" Grid.Column="3" Margin="5,0,0,0"/>
@@ -36,7 +36,7 @@
         <Button Text="Eliminar" Clicked="OnEliminarClicked" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
         <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
 
-        <ListView x:Name="lvConsulta" Grid.Row="4" Grid.ColumnSpan="6" Margin="0,10,0,0">
+        <ListView x:Name="lvConsulta" Grid.Row="4" Grid.ColumnSpan="6" Margin="0,10,0,0" ItemSelected="OnItemSelected" ItemsSource="{Binding Consulta}" SelectedItem="{Binding ClienteBuscado}">
             <ListView.Header>
                 <Border Stroke="#000000" StrokeThickness="1" Background="#D3D3D3" Padding="5">
                     <Grid>

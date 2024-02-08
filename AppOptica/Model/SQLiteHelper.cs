@@ -150,6 +150,73 @@ namespace AppOptica.Model
             }
 
         }
+        public bool AgregarConsulta(Consulta consulta)
+        {
+            bool exito = true;
+
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
+                string query = "INSERT INTO Consulta (FechaC, Cliente_ID, Motivo, Antecedentes, OD, OI, TipoL, ADD_, DIP, Altura) " +
+                               "VALUES (@fechaC, @clienteID, @motivo, @antecedentes, @od, @oi, @tipoL, @add, @dip, @altura)";
+
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                cmd.Parameters.AddWithValue("@fechaC", consulta.FechaC);
+                cmd.Parameters.AddWithValue("@clienteID", consulta.Cliente_ID);
+                cmd.Parameters.AddWithValue("@motivo", consulta.Motivo);
+                cmd.Parameters.AddWithValue("@antecedentes", consulta.Antecedentes);
+                cmd.Parameters.AddWithValue("@od", consulta.OD);
+                cmd.Parameters.AddWithValue("@oi", consulta.OI);
+                cmd.Parameters.AddWithValue("@tipoL", consulta.TipoL);
+                cmd.Parameters.AddWithValue("@add", consulta.ADD_);
+                cmd.Parameters.AddWithValue("@dip", consulta.DIP);
+                cmd.Parameters.AddWithValue("@altura", consulta.Altura);
+
+                if (cmd.ExecuteNonQuery() < 1)
+                {
+                    exito = false;
+                }
+
+                connection.Close();
+            }
+
+            return exito;
+        }
+
+        public List<Cliente> BuscarClientesPorNombre(string nombre)
+        {
+            List<Cliente> resultados = new List<Cliente>();
+
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
+                string query = "SELECT Cliente_ID, FechaR, PNC, SNC, PAC, SAC, TelC, DirC, Ocupacion FROM Clientes WHERE PNC LIKE @nombre OR SNC LIKE @nombre OR PAC LIKE @nombre OR SAC LIKE @nombre";
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        resultados.Add(new Cliente()
+                        {
+                            Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
+                            FechaR = DateTime.Parse(reader["FechaR"].ToString()),
+                            PNC = reader["PNC"].ToString(),
+                            SNC = reader["SNC"].ToString(),
+                            PAC = reader["PAC"].ToString(),
+                            SAC = reader["SAC"].ToString(),
+                            TelC = reader["TelC"].ToString(),
+                            DirC = reader["DirC"].ToString(),
+                            Ocupacion = reader["Ocupacion"].ToString()
+                        });
+                    }
+                    connection.Close();
+                }
+            }
+
+            return resultados;
+        }
     }
 
  
