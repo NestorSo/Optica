@@ -12,7 +12,6 @@ namespace AppOptica.Forms
 
     public class Cliente
     {
-        [PrimaryKey, AutoIncrement]
         public int Cliente_ID { get; set; }
 
         public DateTime FechaR { get; set; }

@@ -257,65 +257,67 @@ namespace AppOptica.Model
             return resultados;
         }
     }
-    //public List<Cliente> BuscarClientesPorNombre(string nombre)
-    //{
-    //    List<Cliente> resultados = new List<Cliente>();
 
-    //    using (SQLiteConnection connection = GetConnection())
-    //    {
-    //        connection.Open();
-    //        string query = "SELECT Cliente_ID, FechaR, PNC, SNC, PAC, SAC, TelC, DirC, Ocupacion FROM Clientes WHERE PNC LIKE @nombre OR SNC LIKE @nombre OR PAC LIKE @nombre OR SAC LIKE @nombre";
-    //        SQLiteCommand cmd = new SQLiteCommand(query, connection);
-    //        cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
+        //public List<Cliente> BuscarClientesPorNombre(string nombre)
+        //{
+        //    List<Cliente> resultados = new List<Cliente>();
 
-    //        using (SQLiteDataReader reader = cmd.ExecuteReader())
-    //        {
-    //            while (reader.Read())
-    //            {
-    //                resultados.Add(new Cliente()
-    //                {
-    //                    Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
-    //                    FechaR = DateTime.Parse(reader["FechaR"].ToString()),
-    //                    PNC = reader["PNC"].ToString(),
-    //                    SNC = reader["SNC"].ToString(),
-    //                    PAC = reader["PAC"].ToString(),
-    //                    SAC = reader["SAC"].ToString(),
-    //                    TelC = reader["TelC"].ToString(),
-    //                    DirC = reader["DirC"].ToString(),
-    //                    Ocupacion = reader["Ocupacion"].ToString()
-    //                });
-    //            }
-    //            connection.Close();
-    //        }
-    //    }
+        //    using (SQLiteConnection connection = GetConnection())
+        //    {
+        //        connection.Open();
+        //        string query = "SELECT Cliente_ID, FechaR, PNC, SNC, PAC, SAC, TelC, DirC, Ocupacion FROM Clientes WHERE PNC LIKE @nombre OR SNC LIKE @nombre OR PAC LIKE @nombre OR SAC LIKE @nombre";
+        //        SQLiteCommand cmd = new SQLiteCommand(query, connection);
+        //        cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
 
-    //    return resultados;
-    //}
+        //        using (SQLiteDataReader reader = cmd.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                resultados.Add(new Cliente()
+        //                {
+        //                    Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
+        //                    FechaR = DateTime.Parse(reader["FechaR"].ToString()),
+        //                    PNC = reader["PNC"].ToString(),
+        //                    SNC = reader["SNC"].ToString(),
+        //                    PAC = reader["PAC"].ToString(),
+        //                    SAC = reader["SAC"].ToString(),
+        //                    TelC = reader["TelC"].ToString(),
+        //                    DirC = reader["DirC"].ToString(),
+        //                    Ocupacion = reader["Ocupacion"].ToString()
+        //                });
+        //            }
+        //            connection.Close();
+        //        }
+        //    }
+
+        //    return resultados;
+        //}
 
 
-    //    public bool Delete(product obj)
-    //    {
-    //        bool ask = true;
+        //    public bool Delete(product obj)
+        //    {
+        //        bool ask = true;
 
-    //        using (SQLiteConnection connec = new SQLiteConnection(connection))
-    //        {
-    //            connec.Open();
-    //            string query = "DELETE FROM Product WHERE ProductID = @productID";
+        //        using (SQLiteConnection connec = new SQLiteConnection(connection))
+        //        {
+        //            connec.Open();
+        //            string query = "DELETE FROM Product WHERE ProductID = @productID";
 
-    //            SQLiteCommand cmd = new SQLiteCommand(query, connec);
-    //            cmd.Parameters.Add(new SQLiteParameter("@productID", obj.ProductID));
-    //            cmd.CommandType = System.Data.CommandType.Text;
+        //            SQLiteCommand cmd = new SQLiteCommand(query, connec);
+        //            cmd.Parameters.Add(new SQLiteParameter("@productID", obj.ProductID));
+        //            cmd.CommandType = System.Data.CommandType.Text;
 
-    //            if (cmd.ExecuteNonQuery() < 1)
-    //            {
-    //                ask = false;
-    //            }
+        //            if (cmd.ExecuteNonQuery() < 1)
+        //            {
+        //                ask = false;
+        //            }
 
-    //        }
+        //        }
 
-    //        return ask;
-    // }
-}
+        //        return ask;
+        // }
+    }
+
 
 
 

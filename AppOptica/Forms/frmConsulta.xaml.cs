@@ -7,7 +7,7 @@ namespace AppOptica.Forms;
 
 public partial class frmConsulta : ContentPage
 {
-    ConsultaViewModel viewModel;
+    ConsultaViewModel ConsultaviewModel;
     ObservableCollection<Cliente> clientes;
     ObservableCollection<Consulta> consultas = new ObservableCollection<Consulta>();
 
@@ -16,20 +16,22 @@ public partial class frmConsulta : ContentPage
         InitializeComponent();
 
         clientes = new ObservableCollection<Cliente>();
-        viewModel = new ConsultaViewModel(clientes, consultas);
-        BindingContext = viewModel;
+        consultas = new ObservableCollection<Consulta>();
+        ConsultaviewModel = new ConsultaViewModel( consultas);
+        BindingContext = ConsultaviewModel;
+        lvConsulta.ItemsSource = consultas; // Usa la propiedad Consultas directamente
         ClientesListView.IsVisible = false;
-        //Asigna el método de búsqueda al evento TextChanged del Entry
-        //S_Client.TextChanged += OnBuscarClienteTextChanged;
+        
+
     }
 
     void OnAgregarClicked(object sender, EventArgs e)
     {
         try
         {
-            if (viewModel == null)
+            if (ConsultaviewModel == null)
             {
-                viewModel = new ConsultaViewModel(clientes, consultas);
+                ConsultaviewModel = new ConsultaViewModel( consultas);
                 lvConsulta.ItemsSource = consultas; // Cambia a clientes
             }
 
@@ -60,7 +62,7 @@ public partial class frmConsulta : ContentPage
                     LimpiarControlesEntrada();
 
                     // Cargar las consultas después de agregar una nueva
-                    viewModel.CargarConsultas();
+                    ConsultaviewModel.CargarConsultas();
 
                     // Notifica al usuario que la consulta se agregó correctamente
                     DisplayAlert("Éxito", "Consulta agregada correctamente", "OK");
@@ -96,10 +98,7 @@ public partial class frmConsulta : ContentPage
         Altura_E.Text= string.Empty;
         // Limpiar otros controles de entrada según sea necesario
     }
-    void OnItemSelected(object sender, SelectedItemChangedEventArgs e) 
-    { 
-    
-    }
+
 
     private void OnBuscarClicked(object sender, EventArgs e)
     {
@@ -122,6 +121,31 @@ public partial class frmConsulta : ContentPage
             Debug.WriteLine($"Error al buscar clientes: {ex.Message}");
         }
     }
+
+    private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        if (e.SelectedItem == null)
+            return;
+
+        // Obtener el cliente seleccionado del evento
+        Cliente clienteSeleccionado = (Cliente)e.SelectedItem;
+
+        // Asignar los valores del cliente a los Entry respectivos
+        Id_Client.Text = clienteSeleccionado.Cliente_ID.ToString();
+
+        // Actualizar la propiedad ClienteSeleccionado en el ViewModel
+        ConsultaviewModel.ClienteSeleccionado = clienteSeleccionado;
+
+        // Desmarcar la selección del ListView
+        ClientesListView.SelectedItem = null;
+
+        // Ocultar el ListView después de procesar la selección
+        Device.BeginInvokeOnMainThread(() =>
+        {
+            ClientesListView.IsVisible = false;
+        });
+    }
+
 
 
 

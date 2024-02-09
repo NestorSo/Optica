@@ -9,7 +9,7 @@ namespace AppOptica
     public partial class App : Application
     {
         InicioViewModel viewModel;
-
+        ConsultaViewModel consultaViewModel;
         public App()
         {
             InitializeComponent();
@@ -21,9 +21,9 @@ namespace AppOptica
 
             // Crear instancia de InicioViewModel
             viewModel = new InicioViewModel(new ObservableCollection<Cliente>());
-
+            consultaViewModel=new ConsultaViewModel(new ObservableCollection<Consulta>());
             // Cargar clientes desde la base de datos al inicio de la aplicación
-            viewModel.CargarClientesDesdeBaseDeDatos();
+            //viewModel.CargarClientesDesdeBaseDeDatos();
         }
 
         protected override void OnStart()
@@ -34,9 +34,11 @@ namespace AppOptica
 
             // Crear instancia de InicioViewModel
             viewModel = new InicioViewModel(new ObservableCollection<Cliente>());
+            consultaViewModel = new ConsultaViewModel(new ObservableCollection<Consulta>());
 
             // Cargar clientes desde la base de datos al inicio de la aplicación
             viewModel.CargarClientesDesdeBaseDeDatos();
+            consultaViewModel.CargarConsultas();
         }
     }
 }
