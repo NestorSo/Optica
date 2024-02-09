@@ -31,7 +31,32 @@ namespace AppOptica.Model
         {
             return new SQLiteConnection($"Data Source={databasePath};Version=3;");
         }
+        internal void InitializeDatabase()
+        {
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
 
+                // Crear la tabla Cliente
+                string createTableClienteQuery = "CREATE TABLE IF NOT EXISTS Clientes (Cliente_ID INTEGER PRIMARY KEY AUTOINCREMENT, FechaR DATETIME, PNC VARCHAR(15) NOT NULL, SNC VARCHAR(15), PAC VARCHAR(15) NOT NULL, SAC VARCHAR(15), TelC VARCHAR(8), DirC VARCHAR(75) NOT NULL, Ocupacion VARCHAR(35) NOT NULL)";
+                SQLiteCommand cmdCliente = new SQLiteCommand(createTableClienteQuery, connection);
+                cmdCliente.ExecuteNonQuery();
+
+                // Crear la tabla Consulta
+                string createTableConsultaQuery = "CREATE TABLE IF NOT EXISTS Consulta (IdCon INTEGER PRIMARY KEY AUTOINCREMENT, FechaC DATETIME, Cliente_ID INT NOT NULL, Motivo TEXT NOT NULL, Antecedentes TEXT NOT NULL, OD FLOAT, OI FLOAT, TipoL NVARCHAR(25) NOT NULL, ADD_ FLOAT, DIP FLOAT, Altura FLOAT, FOREIGN KEY (Cliente_ID) REFERENCES Cliente(Cliente_ID))";
+                SQLiteCommand cmdConsulta = new SQLiteCommand(createTableConsultaQuery, connection);
+                cmdConsulta.ExecuteNonQuery();
+
+                // Crear la tabla Consulta_Ant
+                string createTableConsultaAntQuery = "CREATE TABLE IF NOT EXISTS Consulta_Ant (IdCon INTEGER PRIMARY KEY, FechaC DATETIME, Cliente_ID INT, Motivo TEXT NOT NULL, Antecedentes TEXT NOT NULL, OD FLOAT, OI FLOAT, TipoL NVARCHAR(25) NOT NULL, ADD_ FLOAT, DIP FLOAT, Altura FLOAT)";
+                SQLiteCommand cmdConsultaAnt = new SQLiteCommand(createTableConsultaAntQuery, connection);
+                cmdConsultaAnt.ExecuteNonQuery();
+
+            }
+
+        }
+
+        #region clientes
         public bool AgregarCliente(Cliente cliente)
         {
             bool exito = true;
@@ -125,31 +150,9 @@ namespace AppOptica.Model
             return exito;
         }
 
-       
-        internal void InitializeDatabase()
-        {
-            using (SQLiteConnection connection = GetConnection())
-            {
-                connection.Open();
+        #endregion
 
-                // Crear la tabla Cliente
-                string createTableClienteQuery = "CREATE TABLE IF NOT EXISTS Clientes (Cliente_ID INTEGER PRIMARY KEY AUTOINCREMENT, FechaR DATETIME, PNC VARCHAR(15) NOT NULL, SNC VARCHAR(15), PAC VARCHAR(15) NOT NULL, SAC VARCHAR(15), TelC VARCHAR(8), DirC VARCHAR(75) NOT NULL, Ocupacion VARCHAR(35) NOT NULL)";
-                SQLiteCommand cmdCliente = new SQLiteCommand(createTableClienteQuery, connection);
-                cmdCliente.ExecuteNonQuery();
-
-                // Crear la tabla Consulta
-                string createTableConsultaQuery = "CREATE TABLE IF NOT EXISTS Consulta (IdCon INTEGER PRIMARY KEY AUTOINCREMENT, FechaC DATETIME, Cliente_ID INT NOT NULL, Motivo TEXT NOT NULL, Antecedentes TEXT NOT NULL, OD FLOAT, OI FLOAT, TipoL NVARCHAR(25) NOT NULL, ADD_ FLOAT, DIP FLOAT, Altura FLOAT, FOREIGN KEY (Cliente_ID) REFERENCES Cliente(Cliente_ID))";
-                SQLiteCommand cmdConsulta = new SQLiteCommand(createTableConsultaQuery, connection);
-                cmdConsulta.ExecuteNonQuery();
-
-                // Crear la tabla Consulta_Ant
-                string createTableConsultaAntQuery = "CREATE TABLE IF NOT EXISTS Consulta_Ant (IdCon INTEGER PRIMARY KEY, FechaC DATETIME, Cliente_ID INT, Motivo TEXT NOT NULL, Antecedentes TEXT NOT NULL, OD FLOAT, OI FLOAT, TipoL NVARCHAR(25) NOT NULL, ADD_ FLOAT, DIP FLOAT, Altura FLOAT)";
-                SQLiteCommand cmdConsultaAnt = new SQLiteCommand(createTableConsultaAntQuery, connection);
-                cmdConsultaAnt.ExecuteNonQuery();
-
-            }
-
-        }
+        #region Consulta
         public bool AgregarConsulta(Consulta consulta)
         {
             bool exito = true;
@@ -182,7 +185,43 @@ namespace AppOptica.Model
 
             return exito;
         }
+        public List<Consulta> ObtenerConsultas()
+        {
+            List<Consulta> listaConsultas = new List<Consulta>();
 
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
+                string query = "SELECT IdCon, FechaC, Cliente_ID, Motivo, Antecedentes, OD, OI, TipoL, ADD_, DIP, Altura FROM Consulta";
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listaConsultas.Add(new Consulta()
+                        {
+                            IdCon = int.Parse(reader["IdCon"].ToString()),
+                            FechaC = DateTime.Parse(reader["FechaC"].ToString()),
+                            Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
+                            Motivo = reader["Motivo"].ToString(),
+                            Antecedentes = reader["Antecedentes"].ToString(),
+                            OD = float.Parse(reader["OD"].ToString()),
+                            OI = float.Parse(reader["OI"].ToString()),
+                            TipoL = reader["TipoL"].ToString(),
+                            ADD_ = float.Parse(reader["ADD_"].ToString()),
+                            DIP = float.Parse(reader["DIP"].ToString()),
+                            Altura = float.Parse(reader["Altura"].ToString())
+                        });
+                    }
+                    connection.Close();
+                }
+            }
+
+            return listaConsultas;
+        }
+
+        #endregion
         public List<Cliente> BuscarClientesPorNombre(string nombre)
         {
             List<Cliente> resultados = new List<Cliente>();
@@ -218,8 +257,41 @@ namespace AppOptica.Model
             return resultados;
         }
     }
+    //public List<Cliente> BuscarClientesPorNombre(string nombre)
+    //{
+    //    List<Cliente> resultados = new List<Cliente>();
 
- 
+    //    using (SQLiteConnection connection = GetConnection())
+    //    {
+    //        connection.Open();
+    //        string query = "SELECT Cliente_ID, FechaR, PNC, SNC, PAC, SAC, TelC, DirC, Ocupacion FROM Clientes WHERE PNC LIKE @nombre OR SNC LIKE @nombre OR PAC LIKE @nombre OR SAC LIKE @nombre";
+    //        SQLiteCommand cmd = new SQLiteCommand(query, connection);
+    //        cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
+
+    //        using (SQLiteDataReader reader = cmd.ExecuteReader())
+    //        {
+    //            while (reader.Read())
+    //            {
+    //                resultados.Add(new Cliente()
+    //                {
+    //                    Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
+    //                    FechaR = DateTime.Parse(reader["FechaR"].ToString()),
+    //                    PNC = reader["PNC"].ToString(),
+    //                    SNC = reader["SNC"].ToString(),
+    //                    PAC = reader["PAC"].ToString(),
+    //                    SAC = reader["SAC"].ToString(),
+    //                    TelC = reader["TelC"].ToString(),
+    //                    DirC = reader["DirC"].ToString(),
+    //                    Ocupacion = reader["Ocupacion"].ToString()
+    //                });
+    //            }
+    //            connection.Close();
+    //        }
+    //    }
+
+    //    return resultados;
+    //}
+
 
     //    public bool Delete(product obj)
     //    {

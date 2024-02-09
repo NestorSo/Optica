@@ -11,66 +11,67 @@ namespace AppOptica.Model
 {
     public class ConsultaViewModel : INotifyPropertyChanged
     {
-        ObservableCollection<Cliente> clientes;
+        public ObservableCollection<Cliente> clientes { get; set; } = new ObservableCollection<Cliente>();
+
+
         ObservableCollection<Consulta> consultas;
-        string NombreClienteSeleccionado;
+        
 
-        public ConsultaViewModel(ObservableCollection<Cliente> clientes, ObservableCollection<Consulta> consultas)
+       public ConsultaViewModel(ObservableCollection<Cliente> clientes, ObservableCollection<Consulta> consultas)
         {
-            this.clientes = clientes ?? throw new ArgumentNullException(nameof(clientes));
-            this.consultas = consultas ?? throw new ArgumentNullException(nameof(consultas));
+             this.clientes = clientes ?? throw new ArgumentNullException(nameof(clientes));
+             this.consultas = consultas ?? throw new ArgumentNullException(nameof(consultas));
+
+                // Inicializar la lista de consultas
+                this.consultas = new ObservableCollection<Consulta>();
         }
 
-        int clienteIdSeleccionado;
 
-        public int ClienteIdSeleccionado
-        {
-            get => clienteIdSeleccionado;
-            set
-            {
-                if (clienteIdSeleccionado != value)
-                {
-                    clienteIdSeleccionado = value;
-                    OnPropertyChanged(nameof(ClienteIdSeleccionado));
-                }
-            }
-        }
+
 
         public ICommand BuscarClienteCommand => new Command(BuscarCliente);
 
         public ICommand AgregarConsultaCommand => new Command(AgregarConsulta);
 
-        void BuscarCliente()
+        private string nombreClienteSeleccionado;
+
+        public string NombreClienteSeleccionado
         {
-            if (!string.IsNullOrEmpty(NombreClienteSeleccionado))
+            get => nombreClienteSeleccionado;
+            set
             {
-                // Llama al método BuscarClientesPorNombre de SQLiteHelper.Instance
-                var resultados = SQLiteHelper.Instance.BuscarClientesPorNombre(NombreClienteSeleccionado);
-
-                // Actualiza la lista de clientes según los resultados
-                clientes.Clear();
-                foreach (var cliente in resultados)
+                if (nombreClienteSeleccionado != value)
                 {
-                    clientes.Add(cliente);
+                    nombreClienteSeleccionado = value;
+                    OnPropertyChanged(nameof(NombreClienteSeleccionado));
                 }
+            }
+        }
+        private Cliente clienteSeleccionado;
 
-                if (resultados.Count > 0)
+        public Cliente ClienteSeleccionado
+        {
+            get => clienteSeleccionado;
+            set
+            {
+                if (clienteSeleccionado != value)
                 {
-                    // Asigna el ID del primer cliente encontrado (puedes ajustar esto según tus necesidades)
-                    ClienteIdSeleccionado = resultados[0].Cliente_ID;
+                    clienteSeleccionado = value;
+                    OnPropertyChanged(nameof(ClienteSeleccionado));
                 }
-                else
-                {
-                    // Si no se encuentra el cliente, limpia el Entry del ID
-                    ClienteIdSeleccionado = 0;
-                }
-
-                OnPropertyChanged(nameof(clientes));
             }
         }
 
+      public  void BuscarCliente()
+      {
+           
+      }
 
 
+
+
+
+        #region Agregar
         void AgregarConsulta()
         {
             try
@@ -112,6 +113,23 @@ namespace AppOptica.Model
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error al agregar consulta: {ex.Message}");
+            }
+        }
+        #endregion
+        public void CargarConsultas()
+        {
+            try
+            {
+                // Obtén los consultas de la base de datos y agrégales a la lista
+                var consultasBd = SQLiteHelper.Instance.ObtenerConsultas();
+                foreach (var consulta in consultasBd)
+                {
+                    consultas.Add(consulta);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al cargar consultas desde la base de datos: {ex.Message}");
             }
         }
 

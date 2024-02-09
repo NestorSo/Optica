@@ -1,4 +1,5 @@
 using AppOptica.Model;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.Intrinsics.Arm;
 
@@ -7,26 +8,33 @@ namespace AppOptica.Forms;
 public partial class frmConsulta : ContentPage
 {
     ConsultaViewModel viewModel;
+    ObservableCollection<Cliente> clientes;
+    ObservableCollection<Consulta> consultas = new ObservableCollection<Consulta>();
 
     public frmConsulta()
     {
         InitializeComponent();
-        
+
+        clientes = new ObservableCollection<Cliente>();
         viewModel = new ConsultaViewModel(clientes, consultas);
         BindingContext = viewModel;
-
-        // Asigna el método de búsqueda al evento TextChanged del Entry
-        S_Client.TextChanged += OnBuscarClienteTextChanged;
+        ClientesListView.IsVisible = false;
+        //Asigna el método de búsqueda al evento TextChanged del Entry
+        //S_Client.TextChanged += OnBuscarClienteTextChanged;
     }
 
     void OnAgregarClicked(object sender, EventArgs e)
     {
         try
         {
-           
+            if (viewModel == null)
+            {
+                viewModel = new ConsultaViewModel(clientes, consultas);
+                lvConsulta.ItemsSource = consultas; // Cambia a clientes
+            }
 
-                // Asumiendo que tienes un Entry para el ID del cliente seleccionado
-                if (int.TryParse(Id_Client.Text, out int clienteID))
+            // Asumiendo que tienes un Entry para el ID del cliente seleccionado
+            if (int.TryParse(Id_Client.Text, out int clienteID))
             {
                 // Crea una instancia de la clase Consulta con los valores obtenidos
                 Consulta nuevaConsulta = new Consulta
@@ -37,7 +45,7 @@ public partial class frmConsulta : ContentPage
                     Antecedentes = Antecedentes_E.Text,
                     OD = float.Parse(OD_E.Text),
                     OI = float.Parse(OI_E.Text),
-                    TipoL = TipoL.Text ,
+                    TipoL = TipoL.Text,
                     ADD_ = float.Parse(ADD_E.Text),
                     DIP = float.Parse(DIP_E.Text),
                     Altura = float.Parse(Altura_E.Text)
@@ -50,6 +58,9 @@ public partial class frmConsulta : ContentPage
                 {
                     // Limpiar los controles de entrada después de agregar la consulta
                     LimpiarControlesEntrada();
+
+                    // Cargar las consultas después de agregar una nueva
+                    viewModel.CargarConsultas();
 
                     // Notifica al usuario que la consulta se agregó correctamente
                     DisplayAlert("Éxito", "Consulta agregada correctamente", "OK");
@@ -70,6 +81,7 @@ public partial class frmConsulta : ContentPage
         }
     }
 
+
     // Método para limpiar los controles de entrada después de agregar una consulta
     void LimpiarControlesEntrada()
     {
@@ -84,25 +96,35 @@ public partial class frmConsulta : ContentPage
         Altura_E.Text= string.Empty;
         // Limpiar otros controles de entrada según sea necesario
     }
+    void OnItemSelected(object sender, SelectedItemChangedEventArgs e) 
+    { 
+    
+    }
 
-    void OnBuscarClienteTextChanged(object sender, TextChangedEventArgs e)
+    private void OnBuscarClicked(object sender, EventArgs e)
     {
-        string textoBusqueda = S_Client.Text;
-
-        // Realiza la búsqueda en la lista de clientes
-        var clienteEncontrado = viewModel.Clientes.FirstOrDefault(c => c.PNC.Contains(textoBusqueda) || c.SNC.Contains(textoBusqueda));
-
-        if (clienteEncontrado != null)
+        try
         {
-            // Muestra el ID del cliente en el Entry correspondiente
-            Id_Client.Text = clienteEncontrado.Cliente_ID.ToString();
+            // Obtén el texto del Entry de búsqueda
+            string searchText = S_Client.Text;
+
+            // Llama al método BuscarClientesPorNombre de SQLiteHelper.Instance
+            var resultados = SQLiteHelper.Instance.BuscarClientesPorNombre(searchText);
+
+            // Muestra los resultados en el ListView independiente
+            ClientesListView.ItemsSource = resultados;
+
+            // Hacer visible el ListView de clientes
+            ClientesListView.IsVisible = true;
         }
-        else
+        catch (Exception ex)
         {
-            // Si no se encuentra el cliente, limpia el Entry del ID
-            Id_Client.Text = string.Empty;
+            Debug.WriteLine($"Error al buscar clientes: {ex.Message}");
         }
     }
+
+
+
 
     void OnActualizarClicked(object sender, EventArgs e)
     {
