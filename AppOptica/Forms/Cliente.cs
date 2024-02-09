@@ -15,22 +15,11 @@ namespace AppOptica.Forms
         public int Cliente_ID { get; set; }
 
         public DateTime FechaR { get; set; }
-
-        [NotNull, MaxLength(15)]
         public string PNC { get; set; }
-
-        [MaxLength(15)]
         public string SNC { get; set; }
-
-        [NotNull, MaxLength(15)]
         public string PAC { get; set; }
-
-        [MaxLength(15)]
         public string SAC { get; set; }
-
         private string _telC;
-
-        [MaxLength(8)]
         public string TelC
         {
             get => _telC;
@@ -48,10 +37,7 @@ namespace AppOptica.Forms
             }
         }
 
-        [NotNull, MaxLength(75)]
         public string DirC { get; set; }
-
-        [NotNull, MaxLength(35)]
         public string Ocupacion { get; set; }
 
         private bool IsValidPhoneNumber(string phoneNumber)

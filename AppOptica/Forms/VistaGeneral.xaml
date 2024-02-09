@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AppOptica.Forms.frmConsulta"
-             Title="frmConsulta">
+             x:Class="AppOptica.Forms.VistaGeneral"
+             Title="VistaGeneral">
 
     <Grid Padding="20" RowSpacing="10" ColumnSpacing="10">
         <Grid.RowDefinitions>
@@ -21,6 +22,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
 
         <Entry x:Name="S_Client" Placeholder="Buscar Cliente" IsReadOnly="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,0,5,0" Text="{Binding NombreClienteSeleccionado, Mode=TwoWay}" />
 
@@ -204,6 +206,9 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
+
+
+
     </Grid>
+
 </ContentPage>

@@ -16,24 +16,26 @@ namespace AppOptica.Model
 
         ObservableCollection<Consulta> consultas;
 
-        public ObservableCollection<Consulta> Consultas
+
+        public ConsultaViewModel(ObservableCollection<Consulta> consultas)
         {
-            get => consultas;
+            this.consultas = consultas ?? throw new ArgumentNullException(nameof(consultas));
+            CargarConsultas();
+        }
+
+        private Consulta _selectConsul;
+
+        public Consulta SelectConsul
+        {
+            get => _selectConsul;
             set
             {
-                if (consultas != value)
+                if (_selectConsul != value)
                 {
-                    consultas = value;
-                    OnPropertyChanged(nameof(Consultas));
+                    _selectConsul = value;
+                    OnPropertyChanged(nameof(SelectConsul));
                 }
             }
-        }
-        public ConsultaViewModel( ObservableCollection<Consulta> consultas)
-        {
-             this.consultas = consultas ?? throw new ArgumentNullException(nameof(consultas));
-
-                // Inicializar la lista de consultas
-                this.consultas = new ObservableCollection<Consulta>();
         }
 
 
@@ -107,8 +109,8 @@ namespace AppOptica.Model
                     if (exito)
                     {
                         // Solo si la inserción en la base de datos fue exitosa, actualiza la lista con la nueva consulta
-                        Consultas.Add(nuevaConsulta);
-                        OnPropertyChanged(nameof(Consultas));
+                        consultas.Add(nuevaConsulta);
+                        OnPropertyChanged(nameof(consultas));
                     }
                     else
                     {

@@ -47,6 +47,14 @@ namespace AppOptica.Forms
             await Navigation.PushModalAsync(consultaPage);
         }
 
+
+        private async void OnIrAGeneralClicked(object sender, EventArgs e)
+        {
+            // Abrir la página de Consulta y cerrar la página actual
+            var general = new VistaGeneral();
+            await Navigation.PushModalAsync(general);
+        }
+
         private async void OnSalirClicked(object sender, EventArgs e)
         {
             // Mostrar un cuadro de diálogo para confirmar la salida

@@ -1,20 +1,21 @@
 using AppOptica.Model;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.Intrinsics.Arm;
 
 namespace AppOptica.Forms;
 
-public partial class frmConsulta : ContentPage
+public partial class VistaGeneral : ContentPage
 {
+
+
     ConsultaViewModel ConsultaviewModel;
     ObservableCollection<Cliente> clientes;
     ObservableCollection<Consulta> consultas = new ObservableCollection<Consulta>();
 
-    public frmConsulta()
-    {
-        InitializeComponent();
+    public VistaGeneral()
+	{
+		InitializeComponent();
+
 
         clientes = new ObservableCollection<Cliente>();
         ConsultaviewModel = new ConsultaViewModel(consultas);
@@ -84,15 +85,15 @@ public partial class frmConsulta : ContentPage
     // Método para limpiar los controles de entrada después de agregar una consulta
     void LimpiarControlesEntrada()
     {
-        Id_Client.Text= string.Empty;
-        Motivo_E.Text= string.Empty;
-        Antecedentes_E.Text= string.Empty;
-        OD_E.Text= string.Empty;
-        OI_E.Text= string.Empty;
+        Id_Client.Text = string.Empty;
+        Motivo_E.Text = string.Empty;
+        Antecedentes_E.Text = string.Empty;
+        OD_E.Text = string.Empty;
+        OI_E.Text = string.Empty;
         TipoL.Text = string.Empty;
-        ADD_E.Text= string.Empty;
-        DIP_E.Text= string.Empty;
-        Altura_E.Text= string.Empty;
+        ADD_E.Text = string.Empty;
+        DIP_E.Text = string.Empty;
+        Altura_E.Text = string.Empty;
         // Limpiar otros controles de entrada según sea necesario
     }
 
