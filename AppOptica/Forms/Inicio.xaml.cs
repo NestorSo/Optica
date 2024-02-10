@@ -1,5 +1,6 @@
 using AppOptica.Model;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace AppOptica.Forms;
@@ -13,8 +14,6 @@ public partial class Inicio : ContentPage
         InitializeComponent();
 
         viewModel = new InicioViewModel(Clientes);
-
-
         ClientesListView.ItemsSource = Clientes;
     }
 
@@ -27,35 +26,149 @@ public partial class Inicio : ContentPage
         }
 
 
-        var telefono = TelefonoEntry.Text;
+        string telefono = TelefonoEntry.Text;
+        string _FName = PrimerNombreEntry.Text;
+        string _SName = SegundoNombreEntry.Text;
+        string _FLName = PrimerApellidoEntry.Text;
+        string _SLName = SegundoApellidoEntry.Text;
+        string _Dir = DireccionEntry.Text;
+        string _Ocup = OcupacionEntry.Text;
 
         // Realiza la validación del número de teléfono solo al presionar el botón de agregar
-        if (ValidatePhoneNumberAndNotEmpty(telefono))
+        if (ValidatePhoneNumberAndNotEmpty(telefono) && _IsEmpty(_FName)
+            && _IsEmpty(_FLName) && _IsEmpty(_Dir) && _IsEmpty(_Ocup))
         {
             var cliente = new Cliente
             {
                 FechaR = DateTime.Now,
-                PNC = PrimerNombreEntry.Text,
-                SNC = SegundoNombreEntry.Text,
-                PAC = PrimerApellidoEntry.Text,
-                SAC = SegundoApellidoEntry.Text,
+                PNC = _FName,
+                SNC = _SName,
+                PAC = _FLName,
+                SAC = _SLName,
                 TelC = telefono,
-                DirC = DireccionEntry.Text,
-                Ocupacion = OcupacionEntry.Text
+                DirC = _Dir,
+                Ocupacion = _Ocup
             };
 
             viewModel.AgregarCliente(cliente);
+            viewModel.CargarClientesDesdeBaseDeDatos();
+            LimpiarEntry();
 
-            PrimerNombreEntry.Text = string.Empty;
-            SegundoNombreEntry.Text = string.Empty;
-            PrimerApellidoEntry.Text = string.Empty;
-            SegundoApellidoEntry.Text = string.Empty;
-            DireccionEntry.Text = string.Empty;
-            TelefonoEntry.Text = string.Empty;
-            OcupacionEntry.Text = string.Empty;
         }
+
+        Clientes.Clear();
+
+        // Limpiar los Entry después de la actualización
+        LimpiarEntry();
+
+        // Actualizar la lista de clientes en el ListView
         viewModel.CargarClientesDesdeBaseDeDatos();
+        OnPropertyChanged(nameof(Clientes));
+
     }
+    void OnActualizarClicked(object sender, EventArgs e)
+    {
+        //Verificar si se ha seleccionado un cliente en el ListView
+        if (viewModel.ClienteSeleccionado == null)
+        {
+            DisplayAlert("Error", "Selecciona un cliente para actualizar", "OK");
+            return;
+        }
+
+        // Obtener el Cliente_ID del cliente seleccionado
+        int clienteId = viewModel.ClienteSeleccionado.Cliente_ID;
+
+        // Crear una nueva instancia de Cliente con los datos actualizados
+        Cliente clienteActualizado = new Cliente
+        {
+            Cliente_ID = clienteId, // Usar el Cliente_ID obtenido
+            FechaR = DateTime.Now,
+            PNC = PrimerNombreEntry.Text,
+            SNC = SegundoNombreEntry.Text,
+            PAC = PrimerApellidoEntry.Text,
+            SAC = SegundoApellidoEntry.Text,
+            TelC = TelefonoEntry.Text,
+            DirC = DireccionEntry.Text,
+            Ocupacion = OcupacionEntry.Text
+        };
+        Clientes.Clear();
+        // Llamar al método para actualizar el cliente en el modelo de vista
+        viewModel.ActualizarCliente(clienteActualizado);
+
+        // Limpiar los Entry después de la actualización
+        LimpiarEntry();
+
+        // Actualizar la lista de clientes en el ListView
+        viewModel.CargarClientesDesdeBaseDeDatos();
+        OnPropertyChanged(nameof(Clientes));
+
+    }
+
+
+    private bool _IsEmpty(string a)
+    {
+        if (string.IsNullOrWhiteSpace(a))
+        {
+            DisplayAlert("Error", "No puede haber campos importantes vacios", "OK");
+            return false;
+        }
+
+        return true;
+    }
+
+    void LimpiarEntry()
+    {
+        // Limpiar los Entry
+        PrimerNombreEntry.Text = string.Empty;
+        SegundoNombreEntry.Text = string.Empty;
+        PrimerApellidoEntry.Text = string.Empty;
+        SegundoApellidoEntry.Text = string.Empty;
+        TelefonoEntry.Text = string.Empty;
+        DireccionEntry.Text = string.Empty;
+        OcupacionEntry.Text = string.Empty;
+    }
+
+
+
+    void OnEliminarClicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private async void OnRegresarClicked(object sender, EventArgs e)
+    {
+        
+        await Navigation.PopModalAsync();
+    }
+
+    private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        if (e.SelectedItem == null)
+            return;
+
+        // Obtener el cliente seleccionado del evento
+        Cliente clienteSeleccionado = (Cliente)e.SelectedItem;
+
+        // Asignar los valores del cliente a los Entry respectivos
+        PrimerNombreEntry.Text = clienteSeleccionado.PNC;
+        SegundoNombreEntry.Text = clienteSeleccionado.SNC;
+        PrimerApellidoEntry.Text = clienteSeleccionado.PAC;
+        SegundoApellidoEntry.Text = clienteSeleccionado.SAC;
+        DireccionEntry.Text = clienteSeleccionado.DirC;
+        TelefonoEntry.Text = clienteSeleccionado.TelC;
+        OcupacionEntry.Text = clienteSeleccionado.Ocupacion;
+        IDEntry.Text = clienteSeleccionado.Cliente_ID.ToString();
+
+        // Actualizar la propiedad ClienteSeleccionado en el ViewModel
+        viewModel.ClienteSeleccionado = clienteSeleccionado;
+
+        // Desmarcar la selección del ListView
+        ClientesListView.SelectedItem = null;
+    }
+
+
+
+
     private bool ValidatePhoneNumberAndNotEmpty(string phoneNumber)
     {
         // Verifica si el número de teléfono es válido

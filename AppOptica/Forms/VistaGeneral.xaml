@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppOptica.Forms.VistaGeneral"
+             Title="VistaGeneral">
+
+    <Grid Padding="20" RowSpacing="10" ColumnSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+        <Entry x:Name="S_Client" Placeholder="Buscar Cliente" IsReadOnly="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,0,5,0"/>
+
+        <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Margin="0,5,0,0" />
+        <Button Text="Buscar" Clicked="OnBuscarClicked" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
+
+        <ListView x:Name="lvGeneral"  Grid.Row="2" Grid.ColumnSpan="6" Margin="0,10,0,0" >
+            <ListView.Header>
+                <Border Stroke="#000000" StrokeThickness="1" Background="#D3D3D3" Padding="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Primer Nombre" TextColor="Black" Grid.Column="0" Margin="5"/>
+                        <Label Text="Seguendo Nombre" TextColor="Black" Grid.Column="1" Margin="5"/>
+                        <Label Text="Primer Apellido" TextColor="Black" Grid.Column="2" Margin="5"/>
+                        <Label Text="Segundo Apellido" TextColor="Black" Grid.Column="3" Margin="5"/>
+                        <Label Text="FechaC_Ant" TextColor="Black" Grid.Column="4" Margin="5"/>
+                        <Label Text="OD_Ant" TextColor="Black" Grid.Column="5" Margin="5"/>
+                        <Label Text="OI_Ant" TextColor="Black" Grid.Column="6" Margin="5"/>
+                        <Label Text="TipoL_Ant" TextColor="Black" Grid.Column="7" Margin="5"/>
+                        <Label Text="ADD_Ant" TextColor="Black" Grid.Column="8" Margin="5"/>
+                        <Label Text="DIP_Ant" TextColor="Black" Grid.Column="9" Margin="5"/>
+                        <Label Text="Altura_Ant" TextColor="Black" Grid.Column="10" Margin="5"/>
+                    </Grid>
+                </Border>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding PNC}" Grid.Column="0" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding SNC}" Grid.Column="1" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding PAC}" Grid.Column="2" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding SAC}" Grid.Column="3" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding FechaC}" Grid.Column="4" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding OD}" Grid.Column="5" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding OI}" Grid.Column="6" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+
+                            <Label Text="{Binding TipoL}" Grid.Column="7" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+
+                            <Label Text="{Binding ADD_}" Grid.Column="8" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+
+                            <Label Text="{Binding DIP}" Grid.Column="9" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="10" VerticalOptions="End" />
+
+                            <Label Text="{Binding Altura}" Grid.Column="10" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="11" VerticalOptions="End" />
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+    </Grid>
+
+</ContentPage>
