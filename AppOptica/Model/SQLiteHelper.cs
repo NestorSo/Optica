@@ -43,7 +43,7 @@ namespace AppOptica.Model
                 cmdCliente.ExecuteNonQuery();
 
                 // Crear la tabla Consulta
-                string createTableConsultaQuery = "CREATE TABLE IF NOT EXISTS Consulta (IdCon INTEGER PRIMARY KEY AUTOINCREMENT, FechaC DATETIME, Cliente_ID INT NOT NULL, Motivo TEXT NOT NULL, Antecedentes TEXT NOT NULL, OD FLOAT, OI FLOAT, TipoL NVARCHAR(25) NOT NULL, ADD_ FLOAT, DIP FLOAT, Altura FLOAT, FOREIGN KEY (Cliente_ID) REFERENCES Cliente(Cliente_ID))";
+                string createTableConsultaQuery = "CREATE TABLE IF NOT EXISTS Consulta (IdCon INTEGER PRIMARY KEY AUTOINCREMENT, FechaC DATETIME, Cliente_ID INT NOT NULL, Motivo TEXT NOT NULL, Antecedentes TEXT NOT NULL, OD FLOAT, OI FLOAT, TipoL NVARCHAR(25) NOT NULL, ADD_ FLOAT, DIP FLOAT, Altura FLOAT, FOREIGN KEY (Cliente_ID) REFERENCES Clientes(Cliente_ID))";
                 SQLiteCommand cmdConsulta = new SQLiteCommand(createTableConsultaQuery, connection);
                 cmdConsulta.ExecuteNonQuery();
 
@@ -293,67 +293,115 @@ namespace AppOptica.Model
 
             return resultados;
         }
+
+        #region General
+
+        // Crear metodos de vista para el formulario general de la app
+
+        public List<ConsultaGeneral> ObtenerGeneral()
+        {
+            List<ConsultaGeneral> informacion = new List<ConsultaGeneral>();
+
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
+
+                string query = @"SELECT 
+                            C.PNC,
+                            C.SNC,
+                            C.PAC,
+                            C.SAC,
+                            CA.FechaC,
+                            CA.OD,
+                            CA.OI,
+                            CA.DIP,
+                            CA.ADD_,
+                            CA.Altura,
+                            CA.TipoL
+                        FROM Clientes C
+                        INNER JOIN Consulta CA ON C.Cliente_ID = CA.Cliente_ID";
+
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        informacion.Add(new ConsultaGeneral()
+                        {
+                            PNC = reader["PNC"].ToString(),
+                            SNC = reader["SNC"].ToString(),
+                            PAC = reader["PAC"].ToString(),
+                            SAC = reader["SAC"].ToString(),
+                            FechaC = Convert.ToDateTime(reader["FechaC"]),
+                            OD = float.Parse(reader["OD"].ToString()),
+                            OI = float.Parse(reader["OI"].ToString()),
+                            TipoL = reader["TipoL"].ToString(),
+                            ADD_ = float.Parse(reader["ADD_"].ToString()),
+                            DIP = float.Parse(reader["DIP"].ToString()),
+                            Altura = float.Parse(reader["Altura"].ToString())
+                        });
+                    }
+                }
+            }
+
+            return informacion;
+        }
+
+        public List<ConsultaGeneral> SearchGeneral(string nombre)
+        {
+            List<ConsultaGeneral> resultados = new List<ConsultaGeneral>();
+
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
+                string query = @"SELECT 
+                            C.PNC,
+                            C.SNC,
+                            C.PAC,
+                            C.SAC,
+                            CA.FechaC,
+                            CA.OD,
+                            CA.OI,
+                            CA.DIP,
+                            CA.ADD_,
+                            CA.Altura,
+                            CA.TipoL
+                        FROM Clientes C
+                        INNER JOIN Consulta CA ON C.Cliente_ID = CA.Cliente_ID
+                        WHERE C.PNC LIKE @nombre OR C.SNC LIKE @nombre OR C.PAC LIKE @nombre OR C.SAC LIKE @nombre";
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        resultados.Add(new ConsultaGeneral()
+                        {
+                            PNC = reader["PNC"].ToString(),
+                            SNC = reader["SNC"].ToString(),
+                            PAC = reader["PAC"].ToString(),
+                            SAC = reader["SAC"].ToString(),
+                            FechaC = DateTime.Parse(reader["FechaC"].ToString()),
+                            OD = float.Parse(reader["OD"].ToString()),
+                            OI = float.Parse(reader["OI"].ToString()),
+                            DIP = float.Parse(reader["DIP"].ToString()),
+                            ADD_ = float.Parse(reader["ADD_"].ToString()),
+                            Altura = float.Parse(reader["Altura"].ToString()),
+                            TipoL = reader["TipoL"].ToString()
+                        });
+                    }
+                    connection.Close();
+                }
+            }
+
+            return resultados;
+        }
+
+        #endregion
     }
-
-        //public List<Cliente> BuscarClientesPorNombre(string nombre)
-        //{
-        //    List<Cliente> resultados = new List<Cliente>();
-
-        //    using (SQLiteConnection connection = GetConnection())
-        //    {
-        //        connection.Open();
-        //        string query = "SELECT Cliente_ID, FechaR, PNC, SNC, PAC, SAC, TelC, DirC, Ocupacion FROM Clientes WHERE PNC LIKE @nombre OR SNC LIKE @nombre OR PAC LIKE @nombre OR SAC LIKE @nombre";
-        //        SQLiteCommand cmd = new SQLiteCommand(query, connection);
-        //        cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
-
-        //        using (SQLiteDataReader reader = cmd.ExecuteReader())
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                resultados.Add(new Cliente()
-        //                {
-        //                    Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
-        //                    FechaR = DateTime.Parse(reader["FechaR"].ToString()),
-        //                    PNC = reader["PNC"].ToString(),
-        //                    SNC = reader["SNC"].ToString(),
-        //                    PAC = reader["PAC"].ToString(),
-        //                    SAC = reader["SAC"].ToString(),
-        //                    TelC = reader["TelC"].ToString(),
-        //                    DirC = reader["DirC"].ToString(),
-        //                    Ocupacion = reader["Ocupacion"].ToString()
-        //                });
-        //            }
-        //            connection.Close();
-        //        }
-        //    }
-
-        //    return resultados;
-        //}
-
-
-        //    public bool Delete(product obj)
-        //    {
-        //        bool ask = true;
-
-        //        using (SQLiteConnection connec = new SQLiteConnection(connection))
-        //        {
-        //            connec.Open();
-        //            string query = "DELETE FROM Product WHERE ProductID = @productID";
-
-        //            SQLiteCommand cmd = new SQLiteCommand(query, connec);
-        //            cmd.Parameters.Add(new SQLiteParameter("@productID", obj.ProductID));
-        //            cmd.CommandType = System.Data.CommandType.Text;
-
-        //            if (cmd.ExecuteNonQuery() < 1)
-        //            {
-        //                ask = false;
-        //            }
-
-        //        }
-
-        //        return ask;
-        // }
-    }
+}
 
 
 

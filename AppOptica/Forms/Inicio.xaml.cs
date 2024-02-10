@@ -29,7 +29,7 @@ public partial class Inicio : ContentPage
         string telefono = TelefonoEntry.Text;
         string _FName = PrimerNombreEntry.Text;
         string _SName = SegundoNombreEntry.Text;
-        string _FLName = SegundoApellidoEntry.Text;
+        string _FLName = PrimerApellidoEntry.Text;
         string _SLName = SegundoApellidoEntry.Text;
         string _Dir = DireccionEntry.Text;
         string _Ocup = OcupacionEntry.Text;

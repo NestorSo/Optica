@@ -10,6 +10,7 @@ namespace AppOptica
     {
         InicioViewModel viewModel;
         ConsultaViewModel consultaViewModel;
+        GeneralViewModel generalViewModel;
         public App()
         {
             InitializeComponent();
@@ -21,7 +22,8 @@ namespace AppOptica
 
             // Crear instancia de InicioViewModel
             viewModel = new InicioViewModel(new ObservableCollection<Cliente>());
-            consultaViewModel=new ConsultaViewModel(new ObservableCollection<Consulta>());
+            consultaViewModel = new ConsultaViewModel(new ObservableCollection<Consulta>());
+            generalViewModel = new GeneralViewModel(new ObservableCollection<ConsultaGeneral>());
             // Cargar clientes desde la base de datos al inicio de la aplicación
             //viewModel.CargarClientesDesdeBaseDeDatos();
         }
@@ -35,10 +37,12 @@ namespace AppOptica
             // Crear instancia de InicioViewModel
             viewModel = new InicioViewModel(new ObservableCollection<Cliente>());
             consultaViewModel = new ConsultaViewModel(new ObservableCollection<Consulta>());
+            generalViewModel = new GeneralViewModel(new ObservableCollection<ConsultaGeneral>());
 
             // Cargar clientes desde la base de datos al inicio de la aplicación
             viewModel.CargarClientesDesdeBaseDeDatos();
             consultaViewModel.CargarConsultas();
+            generalViewModel.ObtenerGeneral();
         }
     }
 }
