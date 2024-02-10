@@ -185,6 +185,43 @@ namespace AppOptica.Model
 
             return exito;
         }
+        public bool ActualizarConsulta(Consulta consulta)
+        {
+            bool exito = true;
+
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
+                string query = "UPDATE Consulta SET FechaC = @fechaC, Cliente_ID = @clienteID, " +
+                               "Motivo = @motivo, Antecedentes = @antecedentes, " +
+                               "OD = @od, OI = @oi, TipoL = @tipoL, " +
+                               "ADD_ = @add, DIP = @dip, Altura = @altura " +
+                               "WHERE IdCon = @idCon";
+
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                cmd.Parameters.AddWithValue("@fechaC", consulta.FechaC);
+                cmd.Parameters.AddWithValue("@clienteID", consulta.Cliente_ID);
+                cmd.Parameters.AddWithValue("@motivo", consulta.Motivo);
+                cmd.Parameters.AddWithValue("@antecedentes", consulta.Antecedentes);
+                cmd.Parameters.AddWithValue("@od", consulta.OD);
+                cmd.Parameters.AddWithValue("@oi", consulta.OI);
+                cmd.Parameters.AddWithValue("@tipoL", consulta.TipoL);
+                cmd.Parameters.AddWithValue("@add", consulta.ADD_);
+                cmd.Parameters.AddWithValue("@dip", consulta.DIP);
+                cmd.Parameters.AddWithValue("@altura", consulta.Altura);
+                cmd.Parameters.AddWithValue("@idCon", consulta.IdCon);
+
+                if (cmd.ExecuteNonQuery() < 1)
+                {
+                    exito = false;
+                }
+
+                connection.Close();
+            }
+
+            return exito;
+        }
+
         public List<Consulta> ObtenerConsultas()
         {
             List<Consulta> listaConsultas = new List<Consulta>();

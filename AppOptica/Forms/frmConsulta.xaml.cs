@@ -100,23 +100,30 @@ public partial class frmConsulta : ContentPage
 
     private void OnBuscarClicked(object sender, EventArgs e)
     {
-        try
+        if (S_Client.Text!=null)
         {
-            // Obtén el texto del Entry de búsqueda
-            string searchText = S_Client.Text;
+            try
+            {
+                // Obtén el texto del Entry de búsqueda
+                string searchText = S_Client.Text;
 
-            // Llama al método BuscarClientesPorNombre de SQLiteHelper.Instance
-            var resultados = SQLiteHelper.Instance.BuscarClientesPorNombre(searchText);
+                // Llama al método BuscarClientesPorNombre de SQLiteHelper.Instance
+                var resultados = SQLiteHelper.Instance.BuscarClientesPorNombre(searchText);
 
-            // Muestra los resultados en el ListView independiente
-            ClientesListView.ItemsSource = resultados;
+                // Muestra los resultados en el ListView independiente
+                ClientesListView.ItemsSource = resultados;
 
-            // Hacer visible el ListView de clientes
-            ClientesListView.IsVisible = true;
+                // Hacer visible el ListView de clientes
+                ClientesListView.IsVisible = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al buscar clientes: {ex.Message}");
+            }
         }
-        catch (Exception ex)
+        else
         {
-            Debug.WriteLine($"Error al buscar clientes: {ex.Message}");
+            DisplayAlert("Error", "Ingrese un nombre para poder buscar", "OK");
         }
     }
 
@@ -159,12 +166,62 @@ public partial class frmConsulta : ContentPage
 
     void OnActualizarClicked(object sender, EventArgs e)
     {
-        // Código para actualizar
+        try
+        {
+            // Verifica si se ha seleccionado una consulta en lvConsulta
+            if (ConsultaviewModel.SelectConsul == null)
+            {
+                DisplayAlert("Error", "Selecciona una consulta para actualizar", "OK");
+                return;
+            }
+
+            // Obtén el ID de la consulta seleccionada
+            int consultaId = ConsultaviewModel.SelectConsul.IdCon;
+
+            // Crea una nueva instancia de Consulta con los datos actualizados
+            Consulta consultaActualizada = new Consulta
+            {
+                IdCon = consultaId, // Usa el ID de la consulta obtenido
+                FechaC = DateTime.Now,
+                Cliente_ID = int.Parse(Id_Client.Text),
+                Motivo = Motivo_E.Text,
+                Antecedentes = Antecedentes_E.Text,
+                OD = float.Parse(OD_E.Text),
+                OI = float.Parse(OI_E.Text),
+                TipoL = TipoL.Text,
+                ADD_ = float.Parse(ADD_E.Text),
+                DIP = float.Parse(DIP_E.Text),
+                Altura = float.Parse(Altura_E.Text)
+            };
+
+            // Llamar al método para actualizar la consulta en el modelo de vista
+            bool exito = SQLiteHelper.Instance.ActualizarConsulta(consultaActualizada);
+
+            if (exito)
+            {
+                // Limpiar los controles de entrada después de actualizar la consulta
+                LimpiarControlesEntrada();
+                consultas.Clear();
+                // Cargar las consultas después de actualizar una existente
+                ConsultaviewModel.CargarConsultas();
+
+                // Notificar al usuario que la consulta se actualizó correctamente
+                DisplayAlert("Éxito", "Consulta actualizada correctamente", "OK");
+            }
+            else
+            {
+                Debug.WriteLine("Error al actualizar la consulta en la base de datos.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error al actualizar la consulta: {ex.Message}");
+        }
     }
 
-    void OnEliminarClicked(object sender, EventArgs e)
+    void OnLimpiarClicked(object sender, EventArgs e)
     {
-        // Código para eliminar
+        LimpiarControlesEntrada();
     }
     private async void OnRegresarClicked(object sender, EventArgs e)
     {

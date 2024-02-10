@@ -37,7 +37,7 @@
 
         <Button Text="Agregar" Clicked="OnAgregarClicked" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
         <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
-        <Button Text="Eliminar" Clicked="OnEliminarClicked" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
+        <Button Text="Limpiar" Clicked="OnLimpiarClicked" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
         <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" Margin="0,5,0,0" />
         <Button Text="Buscar" Clicked="OnBuscarClicked" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="1" Margin="0,5,0,0" />
 
