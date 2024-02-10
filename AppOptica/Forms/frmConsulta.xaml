@@ -25,7 +25,7 @@
         <Entry x:Name="S_Client" Placeholder="Buscar Cliente" IsReadOnly="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Margin="0,0,5,0" Text="{Binding NombreClienteSeleccionado, Mode=TwoWay}" />
 
 
-        <Entry x:Name="Id_Client" Placeholder="Cliente Id" Grid.Row="1" Grid.Column="0" Margin="5,0,0,0"/>
+        <Entry x:Name="Id_Client" Placeholder="Cliente Id" Grid.Row="1" Grid.Column="0" Margin="5,0,0,0" IsEnabled="False"/>
         <Entry x:Name="Motivo_E" Placeholder="Motivo" Grid.Row="1" Grid.Column="1" Margin="0,0,5,0"/>
         <Entry x:Name="Antecedentes_E" Placeholder="Antecedentes" Grid.Row="1" Grid.Column="3" Margin="5,0,0,0"/>
         <Entry x:Name="OD_E" Placeholder="OD" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,5,5,0" />

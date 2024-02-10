@@ -55,6 +55,7 @@ public partial class frmConsulta : ContentPage
 
                 if (exito)
                 {
+                    consultas.Clear();
                     // Limpiar los controles de entrada después de agregar la consulta
                     LimpiarControlesEntrada();
 
