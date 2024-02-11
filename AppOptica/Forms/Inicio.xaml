@@ -29,6 +29,7 @@
         <Entry x:Name="IDEntry" Placeholder="ID" IsEnabled="False" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
 
         <Button Text="Agregar a la tabla" Clicked="OnAgregarClicked" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,0,0" />
+        <Button Text="Imprimir" Clicked="OnImprimirClicked" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="0" Margin="0,5,0,0" />
         <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,0,0" />
         <Button Text="Eliminar" Clicked="OnEliminarClicked" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,0,0" />
         <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,0,0" />

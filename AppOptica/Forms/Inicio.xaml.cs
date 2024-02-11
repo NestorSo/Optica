@@ -1,7 +1,14 @@
+using QuestPDF.Drawing;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 using AppOptica.Model;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices.JavaScript;
+using Colors = QuestPDF.Helpers.Colors;
 
 namespace AppOptica.Forms;
 public partial class Inicio : ContentPage
@@ -15,6 +22,9 @@ public partial class Inicio : ContentPage
 
         viewModel = new InicioViewModel(Clientes);
         ClientesListView.ItemsSource = Clientes;
+
+        // Configura la licencia de QuestPDF
+        QuestPDF.Settings.License = LicenseType.Community;
     }
 
     void OnAgregarClicked(object sender, EventArgs e)
@@ -141,6 +151,123 @@ public partial class Inicio : ContentPage
         await Navigation.PopModalAsync();
     }
 
+    void OnImprimirClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            int fileIndex = 1;
+            string fileName;
+            string filePath;
+            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            do
+            {
+                // Generar un nombre dinámico para el archivo PDF
+                fileName = $"Cliente{fileIndex}.pdf";
+                filePath = Path.Combine(documentsPath, fileName);
+                fileIndex++;
+            } while (File.Exists(filePath));
+
+
+
+            var data = Document.Create(document =>
+            {
+                document.Page(page =>
+                {
+                    page.Margin(30);
+
+                    page.Header().ShowOnce().Row(row =>
+                    {
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().AlignCenter().Text("Opticas XXX").Bold().FontSize(14);
+                            col.Item().AlignCenter().Text("Jr. Las mercedes N378 - Lima").FontSize(9);
+                            col.Item().AlignCenter().Text("987 987 123").FontSize(9);
+                            col.Item().AlignCenter().Text("optica@gmail.com").FontSize(9);
+
+                        });
+
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Border(1).BorderColor("#257272")
+                            .AlignCenter().Text("RUC 21312312312");
+
+                            col.Item().Background("#257272").Border(1)
+                            .BorderColor("#257272").AlignCenter()
+                            .Text("Registro de Clientes").FontColor("#fff");
+
+                            col.Item().Border(1).BorderColor("#257272")
+                                .AlignCenter().Text($"B000{fileIndex - 1} - 234");
+                        });
+                    });
+
+                    page.Content().PaddingVertical(10).Column(col1 =>
+                    {
+                        col1.Item().Table(tabla =>
+                        {
+                            tabla.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn(3);
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                            });
+
+                            // Encabezado de la tabla
+                            tabla.Header(header =>
+                            {
+                                header.Cell().Background("#257272")
+                                    .Padding(3).Text("Nombre").FontColor("#fff");
+
+                                header.Cell().Background("#257272")
+                                    .Padding(3).Text("Telefono").FontColor("#fff");
+
+                                header.Cell().Background("#257272")
+                                    .Padding(3).Text("Dirección").FontColor("#fff");
+
+                                header.Cell().Background("#257272")
+                                    .Padding(3).Text("Ocupacion").FontColor("#fff");
+
+                            });
+
+                            // Filas de la tabla con datos de los clientes
+                            foreach (var cliente in Clientes)
+                            {
+
+                                    tabla.Cell().Padding(3).Text($"{cliente.PNC} {cliente.SNC} {cliente.PAC} {cliente.SAC}").FontSize(10);
+                                    tabla.Cell().Padding(3).Text($"{cliente.TelC}").FontSize(10);
+                                    tabla.Cell().Padding(3).Text($"{cliente.DirC}").FontSize(10);
+                                    tabla.Cell().Padding(3).Text($"{cliente.Ocupacion}").FontSize(10);
+                            }
+                        });
+
+                        col1.Spacing(10);
+                    });
+
+                    page.Footer()
+                        .AlignRight()
+                        .Text(txt =>
+                        {
+                            txt.Span("Pagina ").FontSize(10);
+                            txt.CurrentPageNumber().FontSize(10);
+                            txt.Span(" de ").FontSize(10);
+                            txt.TotalPages().FontSize(10);
+                        });
+                });
+            }).GeneratePdf();
+
+            // Guardar el archivo PDF en el almacenamiento de documentos
+            File.WriteAllBytes(filePath, data);
+
+            // Mostrar mensaje de éxito
+            DisplayAlert("Éxito", "El archivo PDF se ha guardado correctamente en Mis Documentos.", "OK");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error al generar el PDF: {ex.Message}");
+        }
+    }
+
     private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem == null)
@@ -168,7 +295,6 @@ public partial class Inicio : ContentPage
 
 
 
-
     private bool ValidatePhoneNumberAndNotEmpty(string phoneNumber)
     {
         // Verifica si el número de teléfono es válido
@@ -189,6 +315,10 @@ public partial class Inicio : ContentPage
 
         return true;
     }
+
+
+
+
     //private void OnTelefonoEntryUnfocused(object sender, FocusEventArgs e)
     //{
     //    // Obtén el valor ingresado en el Entry
