@@ -10,8 +10,13 @@ namespace AppOptica.Forms
 {
     public class Consulta_Ant
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
+        public int IdConAnt { get; set; }
+        // Otras propiedades...
+
+        [ForeignKey("Consulta")]
         public int IdCon { get; set; }
+        [PrimaryKey]
 
         public DateTime FechaC { get; set; }
 

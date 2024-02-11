@@ -41,7 +41,6 @@ namespace AppOptica.Model
 
 
 
-        public ICommand BuscarClienteCommand => new Command(BuscarCliente);
 
         public ICommand AgregarConsultaCommand => new Command(AgregarConsulta);
 
@@ -74,10 +73,7 @@ namespace AppOptica.Model
             }
         }
 
-        public void BuscarCliente()
-        {
-            
-        }
+  
 
 
 
@@ -144,6 +140,8 @@ namespace AppOptica.Model
                 Debug.WriteLine($"Error al cargar consultas desde la base de datos: {ex.Message}");
             }
         }
+
+      
 
         public event PropertyChangedEventHandler PropertyChanged;
 

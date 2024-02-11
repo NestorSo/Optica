@@ -164,6 +164,8 @@ public partial class frmConsulta : ContentPage
 
 
 
+    // ...
+
     void OnActualizarClicked(object sender, EventArgs e)
     {
         try
@@ -174,6 +176,9 @@ public partial class frmConsulta : ContentPage
                 DisplayAlert("Error", "Selecciona una consulta para actualizar", "OK");
                 return;
             }
+
+            // Mover datos a Consulta_Ant antes de la actualización
+            MoverAConsultaAnterior(ConsultaviewModel.SelectConsul);
 
             // Obtén el ID de la consulta seleccionada
             int consultaId = ConsultaviewModel.SelectConsul.IdCon;
@@ -218,6 +223,41 @@ public partial class frmConsulta : ContentPage
             Debug.WriteLine($"Error al actualizar la consulta: {ex.Message}");
         }
     }
+
+    // ...
+
+    // Función para mover datos a Consulta_Anterior
+    void MoverAConsultaAnterior(Consulta consulta)
+    {
+        try
+        {
+            // Crear una instancia de Consulta_Ant con los datos actuales
+            Consulta_Ant consultaAnterior = new Consulta_Ant
+            {
+                FechaC = consulta.FechaC,
+                Cliente_ID = consulta.Cliente_ID,
+                Motivo = consulta.Motivo,
+                Antecedentes = consulta.Antecedentes,
+                OD = consulta.OD,
+                OI = consulta.OI,
+                TipoL = consulta.TipoL,
+                ADD_ = consulta.ADD_,
+                DIP = consulta.DIP,
+                Altura = consulta.Altura
+            };
+
+            // Agregar manualmente la consulta anterior a la lista ConsultasAnteriores
+            consulta.ConsultasAnteriores.Add(consultaAnterior);
+
+            // Actualizar la consulta en la base de datos
+            SQLiteHelper.Instance.ActualizarConsulta(consulta);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error al mover a Consulta_Anterior: {ex.Message}");
+        }
+    }
+
 
     void OnLimpiarClicked(object sender, EventArgs e)
     {
