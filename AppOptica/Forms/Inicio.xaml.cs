@@ -252,7 +252,7 @@ public partial class Inicio : ContentPage
                             txt.CurrentPageNumber().FontSize(10);
                             txt.Span(" de ").FontSize(10);
                             txt.TotalPages().FontSize(10);
-                        });
+                         });
                 });
             }).GeneratePdf();
 
