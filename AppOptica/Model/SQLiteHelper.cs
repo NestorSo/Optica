@@ -26,7 +26,7 @@ namespace AppOptica.Model
                 return _instance;
             }
         }
-
+        #region Intialize and connection
         private SQLiteConnection GetConnection()
         {
             return new SQLiteConnection($"Data Source={databasePath};Version=3;");
@@ -55,6 +55,7 @@ namespace AppOptica.Model
             }
 
         }
+        #endregion
 
         #region clientes
         public bool AgregarCliente(Cliente cliente)
@@ -259,6 +260,8 @@ namespace AppOptica.Model
         }
 
         #endregion
+
+        #region BUsquedaPorNombre
         public List<Cliente> BuscarClientesPorNombre(string nombre)
         {
             List<Cliente> resultados = new List<Cliente>();
@@ -293,6 +296,7 @@ namespace AppOptica.Model
 
             return resultados;
         }
+        #endregion
 
         #region General
 
@@ -400,6 +404,46 @@ namespace AppOptica.Model
         }
 
         #endregion
+
+        // ...
+
+        public bool AgregarConsultaAnterior(Consulta_Ant consultaAnterior)
+        {
+            bool exito = true;
+
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
+                string query = "INSERT INTO Consulta_Ant (IdCon, FechaC, Cliente_ID, Motivo, Antecedentes, OD, OI, TipoL, ADD_, DIP, Altura) " +
+                               "VALUES (@idCon, @fechaC, @clienteID, @motivo, @antecedentes, @od, @oi, @tipoL, @add, @dip, @altura)";
+
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                cmd.Parameters.AddWithValue("@idCon", consultaAnterior.IdCon);
+                cmd.Parameters.AddWithValue("@fechaC", consultaAnterior.FechaC);
+                cmd.Parameters.AddWithValue("@clienteID", consultaAnterior.Cliente_ID);
+                cmd.Parameters.AddWithValue("@motivo", consultaAnterior.Motivo);
+                cmd.Parameters.AddWithValue("@antecedentes", consultaAnterior.Antecedentes);
+                cmd.Parameters.AddWithValue("@od", consultaAnterior.OD);
+                cmd.Parameters.AddWithValue("@oi", consultaAnterior.OI);
+                cmd.Parameters.AddWithValue("@tipoL", consultaAnterior.TipoL);
+                cmd.Parameters.AddWithValue("@add", consultaAnterior.ADD_);
+                cmd.Parameters.AddWithValue("@dip", consultaAnterior.DIP);
+                cmd.Parameters.AddWithValue("@altura", consultaAnterior.Altura);
+
+                if (cmd.ExecuteNonQuery() < 1)
+                {
+                    exito = false;
+                }
+
+                connection.Close();
+            }
+
+            return exito;
+        }
+
+        
+
+
     }
 }
 

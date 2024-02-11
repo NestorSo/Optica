@@ -7,12 +7,22 @@ using System.Threading.Tasks;
 using SQLite;
 using System;
 using System.Collections.ObjectModel;
+using SQLiteNetExtensions.Attributes;
 
 namespace AppOptica.Forms
 {
     public class Consulta
     {
+        public Consulta()
+        {
+            ConsultasAnteriores = new List<Consulta_Ant>();
+        }
+        [PrimaryKey, AutoIncrement]
         public int IdCon { get; set; }
+        // Otras propiedades...
+
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        public List<Consulta_Ant> ConsultasAnteriores { get; set; }
         public DateTime FechaC { get; set; }
         public int Cliente_ID { get; set; }
         public string Motivo { get; set; }
