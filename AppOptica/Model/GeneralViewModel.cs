@@ -14,17 +14,7 @@ namespace AppOptica.Model
     public class GeneralViewModel : INotifyPropertyChanged
     {
 
-        public string SNC { get; set; }
-        public string PNC { get; set; }
-        public string PAC { get; set; }
-        public string SAC { get; set; }
-        public string FechaC { get; set; }
-        public string OD { get; set; }
-        public string OI { get; set; }
-        public string TipoL { get; set; }
-        public string ADD_ { get; set; }
-        public string DIP { get; set; }
-        public string Altura { get; set; }
+
 
         ObservableCollection<ConsultaGeneral> ConsultasGenerales;
 

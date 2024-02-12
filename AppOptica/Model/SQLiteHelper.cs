@@ -43,14 +43,18 @@ namespace AppOptica.Model
                 cmdCliente.ExecuteNonQuery();
 
                 // Crear la tabla Consulta
-                string createTableConsultaQuery = "CREATE TABLE IF NOT EXISTS Consulta (IdCon INTEGER PRIMARY KEY AUTOINCREMENT, FechaC DATETIME, Cliente_ID INT NOT NULL, Motivo TEXT NOT NULL, Antecedentes TEXT NOT NULL, OD FLOAT, OI FLOAT, TipoL NVARCHAR(25) NOT NULL, ADD_ FLOAT, DIP FLOAT, Altura FLOAT, FOREIGN KEY (Cliente_ID) REFERENCES Clientes(Cliente_ID))";
+                string createTableConsultaQuery = "CREATE TABLE IF NOT EXISTS Consulta (IdCon INTEGER PRIMARY KEY AUTOINCREMENT, FechaC DATETIME, Cliente_ID INT NOT NULL, Motivo TEXT  , Antecedentes TEXT  ,TipoL TEXT , AddOD FLOAT, AddOI FLOAT, DipOD FLOAT, DipOI FLOAT, AlturaOD FLOAT, AlturaOI FLOAT, FOREIGN KEY (Cliente_ID) REFERENCES Clientes(Cliente_ID))";
                 SQLiteCommand cmdConsulta = new SQLiteCommand(createTableConsultaQuery, connection);
                 cmdConsulta.ExecuteNonQuery();
 
                 // Crear la tabla Consulta_Ant
-                string createTableConsultaAntQuery = "CREATE TABLE IF NOT EXISTS Consulta_Ant (IdCon INTEGER PRIMARY KEY, FechaC DATETIME, Cliente_ID INT, Motivo TEXT NOT NULL, Antecedentes TEXT NOT NULL, OD FLOAT, OI FLOAT, TipoL NVARCHAR(25) NOT NULL, ADD_ FLOAT, DIP FLOAT, Altura FLOAT)";
+                string createTableConsultaAntQuery = "CREATE TABLE IF NOT EXISTS Consulta_Ant (IdConAnt INTEGER PRIMARY KEY AUTOINCREMENT, IdCon INT, FechaC DATETIME, Cliente_ID INT, Motivo TEXT  , Antecedentes TEXT  ,TipoL TEXT  , AddODOld FLOAT, AddOIOld FLOAT, DipODOld FLOAT, DipOIOld FLOAT, AlturaODOld FLOAT, AlturaOIOld FLOAT)";
                 SQLiteCommand cmdConsultaAnt = new SQLiteCommand(createTableConsultaAntQuery, connection);
                 cmdConsultaAnt.ExecuteNonQuery();
+
+                string createTriggerConsulQuery = "CREATE TRIGGER IF NOT EXISTS actualizar_consulta AFTER UPDATE ON Consulta FOR EACH ROW BEGIN  INSERT INTO Consulta_Ant (IdCon, FechaC, Cliente_ID, Motivo, Antecedentes,TipoL , AddODOld, AddOIOld, DipODOld, DipOIOld, AlturaODOld, AlturaOIOld) VALUES (NEW.IdCon, OLD.FechaC, OLD.Cliente_ID, OLD.Motivo, OLD.Antecedentes,OLD.TipoL, OLD.AddOD, OLD.AddOI, OLD.DipOD, OLD.DipOI, OLD.AlturaOD, OLD.AlturaOI); END;";
+                SQLiteCommand cmdConsul = new SQLiteCommand(createTriggerConsulQuery, connection);
+                cmdConsul.ExecuteNonQuery();
 
             }
 
@@ -161,20 +165,22 @@ namespace AppOptica.Model
             using (SQLiteConnection connection = GetConnection())
             {
                 connection.Open();
-                string query = "INSERT INTO Consulta (FechaC, Cliente_ID, Motivo, Antecedentes, OD, OI, TipoL, ADD_, DIP, Altura) " +
-                               "VALUES (@fechaC, @clienteID, @motivo, @antecedentes, @od, @oi, @tipoL, @add, @dip, @altura)";
+                string query = "INSERT INTO Consulta (FechaC, Cliente_ID, Motivo, Antecedentes, TipoL, AddOD , AddOI , DipOD , DipOI , AlturaOD , AlturaOI ) " +
+                               "VALUES (@fechaC, @clienteID, @motivo, @antecedentes,@tipoL, @addOD, @addOI, @dipOD, @dipOI, @alturaOD, @alturaOI)";
 
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 cmd.Parameters.AddWithValue("@fechaC", consulta.FechaC);
                 cmd.Parameters.AddWithValue("@clienteID", consulta.Cliente_ID);
                 cmd.Parameters.AddWithValue("@motivo", consulta.Motivo);
                 cmd.Parameters.AddWithValue("@antecedentes", consulta.Antecedentes);
-                cmd.Parameters.AddWithValue("@od", consulta.OD);
-                cmd.Parameters.AddWithValue("@oi", consulta.OI);
                 cmd.Parameters.AddWithValue("@tipoL", consulta.TipoL);
-                cmd.Parameters.AddWithValue("@add", consulta.ADD_);
-                cmd.Parameters.AddWithValue("@dip", consulta.DIP);
-                cmd.Parameters.AddWithValue("@altura", consulta.Altura);
+                cmd.Parameters.AddWithValue("@addOD", consulta.AddOD);
+                cmd.Parameters.AddWithValue("@addOI", consulta.AddOI);
+                cmd.Parameters.AddWithValue("@dipOD", consulta.DipOD);
+                cmd.Parameters.AddWithValue("@dipOI", consulta.DipOI);
+                cmd.Parameters.AddWithValue("@alturaOD", consulta.AlturaOD);
+                cmd.Parameters.AddWithValue("@alturaOI", consulta.AlturaOI);
+
 
                 if (cmd.ExecuteNonQuery() < 1)
                 {
@@ -195,8 +201,9 @@ namespace AppOptica.Model
                 connection.Open();
                 string query = "UPDATE Consulta SET FechaC = @fechaC, Cliente_ID = @clienteID, " +
                                "Motivo = @motivo, Antecedentes = @antecedentes, " +
-                               "OD = @od, OI = @oi, TipoL = @tipoL, " +
-                               "ADD_ = @add, DIP = @dip, Altura = @altura " +
+                               "TipoL = @tipoL, AddOD = @addOD, AddOI = @addOI, " +
+                               "DipOD = @dipOD, DipOI = @dipOI, " +
+                               "AlturaOD = @alturaOD, AlturaOI = @alturaOI " +
                                "WHERE IdCon = @idCon";
 
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
@@ -204,12 +211,13 @@ namespace AppOptica.Model
                 cmd.Parameters.AddWithValue("@clienteID", consulta.Cliente_ID);
                 cmd.Parameters.AddWithValue("@motivo", consulta.Motivo);
                 cmd.Parameters.AddWithValue("@antecedentes", consulta.Antecedentes);
-                cmd.Parameters.AddWithValue("@od", consulta.OD);
-                cmd.Parameters.AddWithValue("@oi", consulta.OI);
                 cmd.Parameters.AddWithValue("@tipoL", consulta.TipoL);
-                cmd.Parameters.AddWithValue("@add", consulta.ADD_);
-                cmd.Parameters.AddWithValue("@dip", consulta.DIP);
-                cmd.Parameters.AddWithValue("@altura", consulta.Altura);
+                cmd.Parameters.AddWithValue("@addOD", consulta.AddOD);
+                cmd.Parameters.AddWithValue("@addOI", consulta.AddOI);
+                cmd.Parameters.AddWithValue("@dipOD", consulta.DipOD);
+                cmd.Parameters.AddWithValue("@dipOI", consulta.DipOI);
+                cmd.Parameters.AddWithValue("@alturaOD", consulta.AlturaOD);
+                cmd.Parameters.AddWithValue("@alturaOI", consulta.AlturaOI);
                 cmd.Parameters.AddWithValue("@idCon", consulta.IdCon);
 
                 if (cmd.ExecuteNonQuery() < 1)
@@ -230,7 +238,7 @@ namespace AppOptica.Model
             using (SQLiteConnection connection = GetConnection())
             {
                 connection.Open();
-                string query = "SELECT IdCon, FechaC, Cliente_ID, Motivo, Antecedentes, OD, OI, TipoL, ADD_, DIP, Altura FROM Consulta";
+                string query = "SELECT IdCon, FechaC, Cliente_ID,  Motivo, Antecedentes, TipoL, AddOD , AddOI , DipOD , DipOI , AlturaOD , AlturaOI FROM Consulta";
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
 
                 using (SQLiteDataReader reader = cmd.ExecuteReader())
@@ -244,12 +252,13 @@ namespace AppOptica.Model
                             Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
                             Motivo = reader["Motivo"].ToString(),
                             Antecedentes = reader["Antecedentes"].ToString(),
-                            OD = float.Parse(reader["OD"].ToString()),
-                            OI = float.Parse(reader["OI"].ToString()),
                             TipoL = reader["TipoL"].ToString(),
-                            ADD_ = float.Parse(reader["ADD_"].ToString()),
-                            DIP = float.Parse(reader["DIP"].ToString()),
-                            Altura = float.Parse(reader["Altura"].ToString())
+                            AddOD = float.Parse(reader["AddOD"].ToString()),
+                            AddOI = float.Parse(reader["AddOI"].ToString()),
+                            DipOD = float.Parse(reader["DipOD"].ToString()),
+                            DipOI = float.Parse(reader["DipOI"].ToString()),
+                            AlturaOD = float.Parse(reader["AlturaOD"].ToString()),
+                            AlturaOI = float.Parse(reader["AlturaOI"].ToString())
                         });
                     }
                     connection.Close();
@@ -261,7 +270,7 @@ namespace AppOptica.Model
 
         #endregion
 
-        #region BUsquedaPorNombre
+        #region BusquedaPorNombre
         public List<Cliente> BuscarClientesPorNombre(string nombre)
         {
             List<Cliente> resultados = new List<Cliente>();
@@ -311,19 +320,20 @@ namespace AppOptica.Model
                 connection.Open();
 
                 string query = @"SELECT 
-                            C.PNC,
-                            C.SNC,
-                            C.PAC,
-                            C.SAC,
-                            CA.FechaC,
-                            CA.OD,
-                            CA.OI,
-                            CA.DIP,
-                            CA.ADD_,
-                            CA.Altura,
-                            CA.TipoL
-                        FROM Clientes C
-                        INNER JOIN Consulta CA ON C.Cliente_ID = CA.Cliente_ID";
+                           C.PNC,
+                           C.SNC,
+                           C.PAC,
+                           C.SAC,
+                           CA.FechaC,
+                           CA.AddOD,
+                           CA.AddOI,
+                           CA.DipOD,
+                           CA.DipOI,
+                           CA.AlturaOD,
+                           CA.AlturaOI,
+                           CA.TipoL
+                       FROM Clientes C
+                       INNER JOIN Consulta CA ON C.Cliente_ID = CA.Cliente_ID";
 
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
 
@@ -338,12 +348,13 @@ namespace AppOptica.Model
                             PAC = reader["PAC"].ToString(),
                             SAC = reader["SAC"].ToString(),
                             FechaC = Convert.ToDateTime(reader["FechaC"]),
-                            OD = float.Parse(reader["OD"].ToString()),
-                            OI = float.Parse(reader["OI"].ToString()),
-                            TipoL = reader["TipoL"].ToString(),
-                            ADD_ = float.Parse(reader["ADD_"].ToString()),
-                            DIP = float.Parse(reader["DIP"].ToString()),
-                            Altura = float.Parse(reader["Altura"].ToString())
+                            AddOD = float.Parse(reader["AddODOld"].ToString()),
+                            AddOI = float.Parse(reader["AddOIOld"].ToString()),
+                            DipOD = float.Parse(reader["DipODOld"].ToString()),
+                            DipOI = float.Parse(reader["DipOIOld"].ToString()),
+                            AlturaOD = float.Parse(reader["AlturaODOld"].ToString()),
+                            AlturaOI = float.Parse(reader["AlturaOIOld"].ToString()),
+                            TipoL = reader["TipoL"].ToString()
                         });
                     }
                 }
@@ -360,20 +371,21 @@ namespace AppOptica.Model
             {
                 connection.Open();
                 string query = @"SELECT 
-                            C.PNC,
-                            C.SNC,
-                            C.PAC,
-                            C.SAC,
-                            CA.FechaC,
-                            CA.OD,
-                            CA.OI,
-                            CA.DIP,
-                            CA.ADD_,
-                            CA.Altura,
-                            CA.TipoL
-                        FROM Clientes C
-                        INNER JOIN Consulta CA ON C.Cliente_ID = CA.Cliente_ID
-                        WHERE C.PNC LIKE @nombre OR C.SNC LIKE @nombre OR C.PAC LIKE @nombre OR C.SAC LIKE @nombre";
+                   C.PNC,
+                   C.SNC,
+                   C.PAC,
+                   C.SAC,
+                   CA.FechaC,
+                   CA.AddOD,
+                   CA.AddOI,
+                   CA.DipOD,
+                   CA.DipOI,
+                   CA.AlturaOD,
+                   CA.AlturaOI,
+                   CA.TipoL
+               FROM Clientes C
+               INNER JOIN Consulta_Ant CA ON C.Cliente_ID = CA.Cliente_ID
+               WHERE C.PNC LIKE @nombre OR C.SNC LIKE @nombre OR C.PAC LIKE @nombre OR C.SAC LIKE @nombre";
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
 
@@ -388,11 +400,12 @@ namespace AppOptica.Model
                             PAC = reader["PAC"].ToString(),
                             SAC = reader["SAC"].ToString(),
                             FechaC = DateTime.Parse(reader["FechaC"].ToString()),
-                            OD = float.Parse(reader["OD"].ToString()),
-                            OI = float.Parse(reader["OI"].ToString()),
-                            DIP = float.Parse(reader["DIP"].ToString()),
-                            ADD_ = float.Parse(reader["ADD_"].ToString()),
-                            Altura = float.Parse(reader["Altura"].ToString()),
+                            AddOD = float.Parse(reader["AddODOld"].ToString()),
+                            AddOI = float.Parse(reader["AddOIOld"].ToString()),
+                            DipOD = float.Parse(reader["DipODOld"].ToString()),
+                            DipOI = float.Parse(reader["DipOIOld"].ToString()),
+                            AlturaOD = float.Parse(reader["AlturaODOld"].ToString()),
+                            AlturaOI = float.Parse(reader["AlturaOIOld"].ToString()),
                             TipoL = reader["TipoL"].ToString()
                         });
                     }
@@ -403,45 +416,13 @@ namespace AppOptica.Model
             return resultados;
         }
 
+
+
         #endregion
 
-        // ...
 
-        public bool AgregarConsultaAnterior(Consulta_Ant consultaAnterior)
-        {
-            bool exito = true;
 
-            using (SQLiteConnection connection = GetConnection())
-            {
-                connection.Open();
-                string query = "INSERT INTO Consulta_Ant (IdCon, FechaC, Cliente_ID, Motivo, Antecedentes, OD, OI, TipoL, ADD_, DIP, Altura) " +
-                               "VALUES (@idCon, @fechaC, @clienteID, @motivo, @antecedentes, @od, @oi, @tipoL, @add, @dip, @altura)";
 
-                SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                cmd.Parameters.AddWithValue("@idCon", consultaAnterior.IdCon);
-                cmd.Parameters.AddWithValue("@fechaC", consultaAnterior.FechaC);
-                cmd.Parameters.AddWithValue("@clienteID", consultaAnterior.Cliente_ID);
-                cmd.Parameters.AddWithValue("@motivo", consultaAnterior.Motivo);
-                cmd.Parameters.AddWithValue("@antecedentes", consultaAnterior.Antecedentes);
-                cmd.Parameters.AddWithValue("@od", consultaAnterior.OD);
-                cmd.Parameters.AddWithValue("@oi", consultaAnterior.OI);
-                cmd.Parameters.AddWithValue("@tipoL", consultaAnterior.TipoL);
-                cmd.Parameters.AddWithValue("@add", consultaAnterior.ADD_);
-                cmd.Parameters.AddWithValue("@dip", consultaAnterior.DIP);
-                cmd.Parameters.AddWithValue("@altura", consultaAnterior.Altura);
-
-                if (cmd.ExecuteNonQuery() < 1)
-                {
-                    exito = false;
-                }
-
-                connection.Close();
-            }
-
-            return exito;
-        }
-
-        
 
 
     }

@@ -13,26 +13,21 @@ namespace AppOptica.Forms
 {
     public class Consulta
     {
-        public Consulta()
-        {
-            ConsultasAnteriores = new List<Consulta_Ant>();
-        }
         [PrimaryKey, AutoIncrement]
         public int IdCon { get; set; }
-        // Otras propiedades...
 
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Consulta_Ant> ConsultasAnteriores { get; set; }
         public DateTime FechaC { get; set; }
         public int Cliente_ID { get; set; }
         public string Motivo { get; set; }
         public string Antecedentes { get; set; }
-        public float OD { get; set; }
-        public float OI { get; set; }
+        public float AddOD { get; set; }
+        public float AddOI { get; set; }
+        public float DipOD { get; set; }
+        public float DipOI { get; set; }
+        public float AlturaOD { get; set; }
+        public float AlturaOI { get; set; }
         public string TipoL { get; set; }
-        public float ADD_ { get; set; }
-        public float DIP { get; set; }
-        public float Altura { get; set; }
     }
+
 
 }

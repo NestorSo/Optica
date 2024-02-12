@@ -15,17 +15,14 @@ namespace AppOptica.Forms
         public string _telC { get; set; }
         public DateTime FechaC { get; set; }
         public DateTime FechaC_Ant { get; set; }
-        public float OD { get; set; }
-        public float OI { get; set; }
+        public float AddOD { get; set; }
+        public float AddOI { get; set; }
+        public float DipOD { get; set; }
+        public float DipOI { get; set; }
+        public float AlturaOD { get; set; }
+        public float AlturaOI { get; set; }
         public string TipoL { get; set; }
-        public float ADD_ { get; set; }
-        public float DIP { get; set; }
-        public float Altura { get; set; }
-        public float OD_Ant { get; set; }
-        public float OI_Ant { get; set; }
-        public string TipoL_Ant { get; set; }
-        public float ADD_Ant { get; set; }
-        public float DIP_Ant { get; set; }
-        public float Altura_Ant { get; set; }
+
     }
+
 }

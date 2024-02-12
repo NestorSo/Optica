@@ -42,33 +42,44 @@ public partial class frmConsulta : ContentPage
                     Cliente_ID = clienteID,
                     Motivo = Motivo_E.Text,
                     Antecedentes = Antecedentes_E.Text,
-                    OD = float.Parse(OD_E.Text),
-                    OI = float.Parse(OI_E.Text),
                     TipoL = TipoL.Text,
-                    ADD_ = float.Parse(ADD_E.Text),
-                    DIP = float.Parse(DIP_E.Text),
-                    Altura = float.Parse(Altura_E.Text)
+                    AddOD = float.Parse(AddOD_E.Text),
+                    AddOI = float.Parse(AddOI_E.Text),
+                    DipOD = float.Parse(DipOD_E.Text),
+                    DipOI = float.Parse(DipOI_E.Text),
+                    AlturaOD = float.Parse(AlturaOD_E.Text),
+                    AlturaOI = float.Parse(AlturaOI_E.Text)
                 };
 
                 // Llama al método AgregarConsulta de SQLiteHelper.Instance
                 bool exito = SQLiteHelper.Instance.AgregarConsulta(nuevaConsulta);
+                
 
-                if (exito)
-                {
-                    consultas.Clear();
-                    // Limpiar los controles de entrada después de agregar la consulta
-                    LimpiarControlesEntrada();
+                    if (Id_Client.Text != null || Motivo_E.Text != null || Antecedentes_E.Text != null || TipoL.Text != null || AddOD_E.Text != null || AddOI_E.Text != null || DipOD_E.Text != null || DipOI_E.Text != null || AlturaOD_E.Text != null || AlturaOI_E.Text != null)
+                    {
+                    if (exito)
+                    {
+                        consultas.Clear();
+                        // Limpiar los controles de entrada después de agregar la consulta
+                        LimpiarControlesEntrada();
 
-                    // Cargar las consultas después de agregar una nueva
-                    ConsultaviewModel.CargarConsultas();
+                        // Cargar las consultas después de agregar una nueva
+                        ConsultaviewModel.CargarConsultas();
 
-                    // Notifica al usuario que la consulta se agregó correctamente
-                    DisplayAlert("Éxito", "Consulta agregada correctamente", "OK");
-                }
-                else
-                {
-                    Debug.WriteLine("Error al agregar la consulta en la base de datos.");
-                }
+                        // Notifica al usuario que la consulta se agregó correctamente
+                        DisplayAlert("Éxito", "Consulta agregada correctamente", "OK");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Error al agregar la consulta en la base de datos.");
+                    }
+                    }
+                    else 
+                    {
+                    DisplayAlert("Error", "No puede agregar datos sin antes rellenar las casillas", "OK");
+                    }
+
+
             }
             else
             {
@@ -88,17 +99,19 @@ public partial class frmConsulta : ContentPage
         Id_Client.Text= string.Empty;
         Motivo_E.Text= string.Empty;
         Antecedentes_E.Text= string.Empty;
-        OD_E.Text= string.Empty;
-        OI_E.Text= string.Empty;
         TipoL.Text = string.Empty;
-        ADD_E.Text= string.Empty;
-        DIP_E.Text= string.Empty;
-        Altura_E.Text= string.Empty;
+        AddOD_E.Text= string.Empty;
+        AddOI_E.Text= string.Empty;
+        DipOD_E.Text= string.Empty;
+        DipOI_E.Text= string.Empty;
+        AlturaOD_E.Text= string.Empty;
+        AlturaOI_E.Text= string.Empty;
         // Limpiar otros controles de entrada según sea necesario
     }
+  
 
 
-    private void OnBuscarClicked(object sender, EventArgs e)
+    private void OnBuscarClienteClicked(object sender, EventArgs e)
     {
         if (S_Client.Text!=null)
         {
@@ -127,7 +140,35 @@ public partial class frmConsulta : ContentPage
         }
     }
 
-    private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+    private void OnBuscarConsultaClicked(object sender, EventArgs e)
+    {
+        if (S_Client.Text != null)
+        {
+            try
+            {
+                // Obtén el texto del Entry de búsqueda
+                string searchText = S_Client.Text;
+
+                // Llama al método BuscarClientesPorNombre de SQLiteHelper.Instance
+                var resultados = SQLiteHelper.Instance.BuscarClientesPorNombre(searchText);
+
+                // Muestra los resultados en el ListView independiente
+                lvConsulta.ItemsSource = resultados;
+
+                // Hacer visible el ListView de clientes
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al buscar clientes: {ex.Message}");
+            }
+        }
+        else
+        {
+            DisplayAlert("Error", "Ingrese un nombre para poder buscar", "OK");
+        }
+
+    }
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem == null)
             return;
@@ -149,23 +190,17 @@ public partial class frmConsulta : ContentPage
             Id_Client.Text = consultaSeleccionada.Cliente_ID.ToString();
             Motivo_E.Text = consultaSeleccionada.Motivo;
             Antecedentes_E.Text = consultaSeleccionada.Antecedentes;
-            OD_E.Text = consultaSeleccionada.OD.ToString();
-            OI_E.Text = consultaSeleccionada.OI.ToString();
-            ADD_E.Text = consultaSeleccionada.ADD_.ToString();
-            DIP_E.Text = consultaSeleccionada.DIP.ToString();
-            Altura_E.Text = consultaSeleccionada.Altura.ToString();
+            AddOD_E.Text = consultaSeleccionada.AddOD.ToString();
+            AddOI_E.Text = consultaSeleccionada.AddOI.ToString();
+            DipOD_E.Text = consultaSeleccionada.DipOD.ToString();
+            DipOI_E.Text = consultaSeleccionada.DipOI.ToString();
+            AlturaOD_E.Text = consultaSeleccionada.AlturaOD.ToString();
+            AlturaOI_E.Text = consultaSeleccionada.AlturaOI.ToString();
             TipoL.Text = consultaSeleccionada.TipoL;
             ConsultaviewModel.SelectConsul = consultaSeleccionada;
             lvConsulta.SelectedItem = null;
         }
     }
-
-
-
-
-
-    // ...
-
     void OnActualizarClicked(object sender, EventArgs e)
     {
         try
@@ -178,7 +213,6 @@ public partial class frmConsulta : ContentPage
             }
 
             // Mover datos a Consulta_Ant antes de la actualización
-            MoverAConsultaAnterior(ConsultaviewModel.SelectConsul);
 
             // Obtén el ID de la consulta seleccionada
             int consultaId = ConsultaviewModel.SelectConsul.IdCon;
@@ -191,12 +225,13 @@ public partial class frmConsulta : ContentPage
                 Cliente_ID = int.Parse(Id_Client.Text),
                 Motivo = Motivo_E.Text,
                 Antecedentes = Antecedentes_E.Text,
-                OD = float.Parse(OD_E.Text),
-                OI = float.Parse(OI_E.Text),
                 TipoL = TipoL.Text,
-                ADD_ = float.Parse(ADD_E.Text),
-                DIP = float.Parse(DIP_E.Text),
-                Altura = float.Parse(Altura_E.Text)
+                AddOD = float.Parse(AddOD_E.Text),
+                AddOI = float.Parse(AddOI_E.Text),
+                DipOD = float.Parse(DipOD_E.Text),
+                DipOI = float.Parse(DipOI_E.Text),
+                AlturaOD = float.Parse(AlturaOD_E.Text),
+                AlturaOI = float.Parse(AlturaOI_E.Text)
             };
 
             // Llamar al método para actualizar la consulta en el modelo de vista
@@ -227,36 +262,9 @@ public partial class frmConsulta : ContentPage
     // ...
 
     // Función para mover datos a Consulta_Anterior
-    void MoverAConsultaAnterior(Consulta consulta)
-    {
-        try
-        {
-            // Crear una instancia de Consulta_Ant con los datos actuales
-            Consulta_Ant consultaAnterior = new Consulta_Ant
-            {
-                FechaC = consulta.FechaC,
-                Cliente_ID = consulta.Cliente_ID,
-                Motivo = consulta.Motivo,
-                Antecedentes = consulta.Antecedentes,
-                OD = consulta.OD,
-                OI = consulta.OI,
-                TipoL = consulta.TipoL,
-                ADD_ = consulta.ADD_,
-                DIP = consulta.DIP,
-                Altura = consulta.Altura
-            };
+   
 
-            // Agregar manualmente la consulta anterior a la lista ConsultasAnteriores
-            consulta.ConsultasAnteriores.Add(consultaAnterior);
 
-            // Actualizar la consulta en la base de datos
-            SQLiteHelper.Instance.ActualizarConsulta(consulta);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error al mover a Consulta_Anterior: {ex.Message}");
-        }
-    }
 
 
     void OnLimpiarClicked(object sender, EventArgs e)

@@ -20,19 +20,19 @@
         </Grid.ColumnDefinitions>
 
         <Entry x:Name="PrimerNombreEntry" Placeholder="Primer Nombre" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0"/>
-        <Entry x:Name="SegundoNombreEntry" Placeholder="Segundo Nombre" Grid.Row="0" Grid.Column="1" Margin="5,0,0,0"/>
+        <Entry x:Name="SegundoNombreEntry" Placeholder="Segundo Nombre" Grid.Row="0" Grid.Column="1" Margin="0,0,5,0"/>
         <Entry x:Name="PrimerApellidoEntry" Placeholder="Primer Apellido" Grid.Row="0" Grid.Column="2" Margin="0,0,5,0"/>
-        <Entry x:Name="SegundoApellidoEntry" Placeholder="Segundo Apellido" Grid.Row="0" Grid.Column="3" Margin="5,0,0,0"/>
-        <Entry x:Name="DireccionEntry" Placeholder="Dirección" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" Margin="0,5,5,0" />
-        <Entry x:Name="TelefonoEntry" Placeholder="Teléfono" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" Margin="5,5,5,0"/>
-        <Entry x:Name="OcupacionEntry" Placeholder="Ocupación" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
-        <Entry x:Name="IDEntry" Placeholder="ID" IsEnabled="False" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,5,0,0"/>
+        <Entry x:Name="SegundoApellidoEntry" Placeholder="Segundo Apellido" Grid.Row="0" Grid.Column="3" Margin="0,0,5,0"/>
+        <Entry x:Name="DireccionEntry" Placeholder="Dirección" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" Margin="0,0,5,0" />
+        <Entry x:Name="TelefonoEntry" Placeholder="Teléfono" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" Margin="0,0,5,0"/>
+        <Entry x:Name="OcupacionEntry" Placeholder="Ocupación" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,0,5,0"/>
+        <Entry x:Name="IDEntry" Placeholder="ID" IsEnabled="False" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,5,0"/>
 
-        <Button Text="Agregar a la tabla" Clicked="OnAgregarClicked" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,0,0" />
-        <Button Text="Imprimir" Clicked="OnImprimirClicked" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="0" Margin="0,5,0,0" />
-        <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,0,0" />
-        <Button Text="Eliminar" Clicked="OnEliminarClicked" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,0,0" />
-        <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,0,0" />
+        <Button Text="Agregar a la tabla" Clicked="OnAgregarClicked" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,5,0" />
+        <Button Text="Imprimir" Clicked="OnImprimirClicked" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="0" Margin="0,5,5,0" />
+        <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,5,0" />
+        <Button Text="Eliminar" Clicked="OnEliminarClicked" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,5,0" />
+        <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="1" Margin="0,5,5,0" />
 
         <ListView x:Name="ClientesListView" ItemsSource="{Binding Clientes}" SelectedItem="{Binding ClienteSeleccionado}" Grid.Row="3" Grid.ColumnSpan="6" Margin="0,10,0,0" ItemSelected="OnItemSelected">
             <ListView.Header>
