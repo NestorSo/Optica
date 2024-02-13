@@ -3,7 +3,7 @@
              x:Class="AppOptica.Forms.Principal"
              Title="Principal">
 
-    <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+    <Grid VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -35,7 +35,7 @@
                 </Grid.RowDefinitions>
 
 
-                <Button Text="Ir a Inicio" Clicked="OnIrAInicioClicked" Grid.Column="1" Grid.Row="0" Margin="0,5,0,0" Grid.ColumnSpan="1" VerticalOptions="End" FontFamily="Urbani"/>
+                <Button Text="Ir a Clientes" Clicked="OnIrAInicioClicked" Grid.Column="1" Grid.Row="0" Margin="0,5,0,0" Grid.ColumnSpan="1" VerticalOptions="End" FontFamily="Urbani"/>
                 <Button Text="Ir a Consulta" Clicked="OnIrAConsultaClicked" Grid.Column="2" Grid.Row="0" Margin="0,5,0,0" Grid.ColumnSpan="1" VerticalOptions="End" FontFamily="Urbani"/>
                 <Button Text="Ir a General" Clicked="OnIrAGeneralClicked" Grid.Column="3" Grid.Row="0" Margin="0,5,0,0" Grid.ColumnSpan="1" VerticalOptions="End" FontFamily="Urbani"/>
                 <Button Text="Salir" Clicked="OnSalirClicked" Grid.Column="4" Grid.Row="0" Margin="0,5,0,0" Grid.ColumnSpan="1" VerticalOptions="End" FontFamily="Urbani"/>

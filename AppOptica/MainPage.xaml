@@ -6,7 +6,10 @@
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
-            Spacing="25">
+            Spacing="25"
+                VerticalOptions="FillAndExpand">
+            
+            
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"

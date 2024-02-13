@@ -13,7 +13,6 @@ public partial class VistaGeneral : ContentPage
     {
         InitializeComponent();
         generalViewModel = new GeneralViewModel(consultas);
-        BindingContext = generalViewModel;
         lvGeneral.ItemsSource = consultas;
         generalViewModel.ObtenerGeneral();
     }
@@ -49,6 +48,8 @@ public partial class VistaGeneral : ContentPage
     {
         S_Client.Text=string.Empty;
         consultas.Clear();
+        lvGeneral.ItemsSource = consultas;
+
         generalViewModel.ObtenerGeneral();
 
     }

@@ -48,6 +48,7 @@ namespace AppOptica.Forms
         }
 
 
+
         private async void OnIrAGeneralClicked(object sender, EventArgs e)
         {
             // Abrir la página de Consulta y cerrar la página actual

@@ -16,7 +16,7 @@ namespace AppOptica
             InitializeComponent();
 
             MainPage = new Principal();
-
+           
             // Inicialización única de la base de datos
             SQLiteHelper.Instance.InitializeDatabase();
 
@@ -24,8 +24,7 @@ namespace AppOptica
             viewModel = new InicioViewModel(new ObservableCollection<Cliente>());
             consultaViewModel = new ConsultaViewModel(new ObservableCollection<Consulta>());
             generalViewModel = new GeneralViewModel(new ObservableCollection<ConsultaGeneral>());
-            // Cargar clientes desde la base de datos al inicio de la aplicación
-            //viewModel.CargarClientesDesdeBaseDeDatos();
+
         }
 
         protected override void OnStart()
