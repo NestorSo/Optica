@@ -12,9 +12,9 @@ namespace AppOptica.Forms
         public string SNC { get; set; }
         public string PAC { get; set; }
         public string SAC { get; set; }
-        public string _telC { get; set; }
         public DateTime FechaC { get; set; }
-        public DateTime FechaC_Ant { get; set; }
+        public float AddOD_Old { get; set; }
+        public float AddOI_Old { get; set; }
         public float AddOD { get; set; }
         public float AddOI { get; set; }
         public float DipOD { get; set; }

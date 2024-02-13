@@ -42,21 +42,22 @@
         <Entry x:Name="Antecedentes_E" Placeholder="Antecedentes" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
         <Entry x:Name="TipoL" Placeholder="TipoLente" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
         <Entry x:Name="AddOD_E" Placeholder="AddOD" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
-        <Entry x:Name="AddOI_E" Placeholder="AddOI" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
-        <Entry x:Name="DipOD_E" Placeholder="DipOD" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
-        <Entry x:Name="DipOI_E" Placeholder="DipOI" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
-        <Entry x:Name="AlturaOD_E" Placeholder="AlturaOD" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
-        <Entry x:Name="AlturaOI_E" Placeholder="AlturaOI" Grid.Row="2" Grid.Column="10" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
+        <Entry x:Name="AddOI_E" Placeholder="AddOI" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
+        <Entry x:Name="DipOD_E" Placeholder="DipOD" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
+        <Entry x:Name="DipOI_E" Placeholder="DipOI" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
+        <Entry x:Name="AlturaOD_E" Placeholder="AlturaOD" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
+        <Entry x:Name="AlturaOI_E" Placeholder="AlturaOI" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" Margin="0,0,5,0"/>
 
-        <Button Text="Agregar" Clicked="OnAgregarClicked" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,5,0,0" />
-        <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,5,0,0" />
-        <Button Text="Limpiar" Clicked="OnLimpiarClicked" Grid.Column="8" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,5,0,0" />
-        <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="10" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,5,0,0" />
-        <Button Text="Buscar Cliente" Clicked="OnBuscarClienteClicked" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" Margin="0,5,0,0" />
-        <Button Text="Buscar Consulta" Clicked="OnBuscarConsultaClicked" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+        <Button Text="Agregar" Clicked="OnAgregarClicked" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+        <Button Text="Actualizar" Clicked="OnActualizarClicked" Grid.Column="4" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+        <Button Text="Limpiar" Clicked="OnLimpiarClicked" Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+        <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="11" Grid.Row="11" Grid.ColumnSpan="2" VerticalOptions="End" HorizontalOptions="End" Margin="0,5,0,0" />
+        <Button Text="Buscar Cliente" Clicked="OnBuscarClienteClicked" Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+        <Button Text="Buscar Consulta" Clicked="OnBuscarConsultaClicked" Grid.Row="5" Grid.Column="10" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+        <Button Text="Imprimir" Clicked="OnImprimirClicked" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,5,0,0" />
 
 
-        <ListView x:Name="ClientesListView" SelectedItem="{Binding ClienteSeleccionado.Cliente_ID}" Grid.Row="5" Grid.ColumnSpan="12" Margin="0,10,0,0" ItemSelected="OnItemSelected">
+        <ListView x:Name="ClientesListView" SelectedItem="{Binding ClienteSeleccionado.Cliente_ID}" Grid.Row="6" Grid.ColumnSpan="12" Margin="0,10,0,0" ItemSelected="OnItemSelected">
             <ListView.Header>
                 <Border Stroke="#000000" StrokeThickness="1" Background="#D3D3D3" Padding="5">
                     <Grid>
@@ -100,38 +101,38 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Text="{Binding Cliente_ID}" Grid.Column="0" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding FechaR}" Grid.Column="1" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding PNC}" Grid.Column="2" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding SNC}" Grid.Column="3" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding PAC}" Grid.Column="4" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding SAC}" Grid.Column="5" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding TelC}" Grid.Column="6" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding DirC}" Grid.Column="7" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding Ocupacion}" Grid.Column="8" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <ListView x:Name="lvConsulta"  Grid.Row="6" Grid.ColumnSpan="12" Margin="0,10,0,0" ItemSelected="OnItemSelected" >
+        <ListView x:Name="lvConsulta"  Grid.Row="7" Grid.ColumnSpan="12" Margin="0,10,0,0" ItemSelected="OnItemSelected" >
             <ListView.Header>
                 <Border Stroke="#000000" StrokeThickness="1" Background="#D3D3D3" Padding="5">
                     <Grid>
@@ -149,18 +150,18 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Text="ID" TextColor="Black" Grid.Column="0" Margin="5"/>
-                        <Label Text="Fecha Registro" TextColor="Black" Grid.Column="1" Margin="5"/>
-                        <Label Text="ID_Client" TextColor="Black" Grid.Column="2" Margin="5"/>
-                        <Label Text="Motivo" TextColor="Black" Grid.Column="3" Margin="5"/>
-                        <Label Text="Antecedentes" TextColor="Black" Grid.Column="4" Margin="5"/>
-                        <Label Text="TipoL" TextColor="Black" Grid.Column="5" Margin="5"/>
-                        <Label Text="AddOD" TextColor="Black" Grid.Column="6" Margin="5"/>
-                        <Label Text="AddOI" TextColor="Black" Grid.Column="7" Margin="5"/>
-                        <Label Text="DipOD" TextColor="Black" Grid.Column="8" Margin="5"/>
-                        <Label Text="DipOI" TextColor="Black" Grid.Column="9" Margin="5"/>
-                        <Label Text="AlturaOD" TextColor="Black" Grid.Column="10" Margin="5"/>
-                        <Label Text="AlturaOI" TextColor="Black" Grid.Column="11" Margin="5"/>
+                        <Label Text="ID" TextColor="Black" Grid.Column="0" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="Fecha Registro" TextColor="Black" Grid.Column="1" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="ID_Client" TextColor="Black" Grid.Column="2" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="Motivo" TextColor="Black" Grid.Column="3" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="Antecedentes" TextColor="Black" Grid.Column="4" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="TipoL" TextColor="Black" Grid.Column="5" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="AddOD" TextColor="Black" Grid.Column="6" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="AddOI" TextColor="Black" Grid.Column="7" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="DipOD" TextColor="Black" Grid.Column="8" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="DipOI" TextColor="Black" Grid.Column="9" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="AlturaOD" TextColor="Black" Grid.Column="10" Margin="5" HorizontalOptions="Center"/>
+                        <Label Text="AlturaOI" TextColor="Black" Grid.Column="11" Margin="5" HorizontalOptions="Center"/>
                     </Grid>
                 </Border>
             </ListView.Header>
@@ -185,40 +186,40 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Text="{Binding IdCon}" Grid.Column="0" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding FechaC}" Grid.Column="1" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding Cliente_ID}" Grid.Column="2" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding Motivo}" Grid.Column="3" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding Antecedentes}" Grid.Column="4" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding TipoL}" Grid.Column="5" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding AddOD}" Grid.Column="6" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding AddOI}" Grid.Column="7" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding DipOD}" Grid.Column="8" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="10" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding DipOI}" Grid.Column="9" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="10" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding AlturaOD}" Grid.Column="10" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="11" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                             <Label Text="{Binding AlturaOI}" Grid.Column="11" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="11" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="12" VerticalOptions="End" />
 
                         </Grid>
                     </ViewCell>

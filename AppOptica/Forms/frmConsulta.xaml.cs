@@ -3,6 +3,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.Intrinsics.Arm;
+using QuestPDF.Drawing;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using Colors = QuestPDF.Helpers.Colors;
 
 namespace AppOptica.Forms;
 
@@ -20,6 +25,7 @@ public partial class frmConsulta : ContentPage
         ConsultaviewModel = new ConsultaViewModel(consultas);
         lvConsulta.ItemsSource = consultas; // Usa la propiedad Consultas directamente
         ClientesListView.IsVisible = false;
+        QuestPDF.Settings.License = LicenseType.Community;
     }
 
     void OnAgregarClicked(object sender, EventArgs e)
@@ -92,6 +98,144 @@ public partial class frmConsulta : ContentPage
         }
     }
 
+    void OnImprimirClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            int fileIndex = 1;
+            string fileName;
+            string filePath;
+            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            do
+            {
+                // Generar un nombre dinámico para el archivo PDF
+                fileName = $"Consulta {fileIndex}.pdf";
+                filePath = Path.Combine(documentsPath, fileName);
+                fileIndex++;
+
+
+            } while (File.Exists(filePath));
+
+
+
+
+            var data = Document.Create(document =>
+            {
+                
+                
+
+                document.Page(page =>
+                {
+
+                    page.Margin(30);
+                    page.Header().ShowOnce().Row(row =>
+                    {
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().AlignCenter().Text("Opticas XXX").Bold().FontSize(14);
+                            col.Item().AlignCenter().Text("Jr. Las mercedes N378 - Lima").FontSize(9);
+                            col.Item().AlignCenter().Text("987 987 123").FontSize(9);
+                            col.Item().AlignCenter().Text("optica@gmail.com").FontSize(9);
+                        });
+
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Border(1).BorderColor("#257272")
+                                .AlignCenter().Text("RUC 21312312312");
+
+                            col.Item().Background("#257272").Border(1)
+                                .BorderColor("#257272").AlignCenter()
+                                .Text("Registro de Clientes").FontColor("#fff");
+
+                            col.Item().Border(1).BorderColor("#257272")
+                                .AlignCenter().Text($"B000{fileIndex - 1} - 234");
+                        });
+                    });
+
+                    page.Content().PaddingVertical(10).Column(col1 =>
+                    {
+                        col1.Item().Table(tabla =>
+                        {
+                            tabla.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                            });
+
+                            // Encabezado de la tabla
+                            tabla.Header(header =>
+                            {
+                                header.Cell().Background("#257272").Border(1).AlignCenter().Height(50)
+                                    .Padding(0).Text(" ").FontColor("#fff");
+
+                                header.Cell().Background("#257272").Border(1).AlignCenter().Height(50)
+                                    .Padding(0).Text("ADD").FontColor("#fff");
+
+                                header.Cell().Background("#257272").Border(1).AlignCenter().Height(50)
+                                    .Padding(0).Text("DIP").FontColor("#fff");
+
+                                header.Cell().Background("#257272").Border(1).AlignCenter().Height(50)
+                                    .Padding(0).Text("ALTURA").FontColor("#fff");
+                            });
+
+                            // Fila OD
+                            tabla.Cell().Row(1).Column(0).Background("#257272").Border(1).AlignCenter().Height(50).Padding(3).Text("OD").FontColor("#fff");
+                            tabla.Cell().Padding(0).Border(1).AlignCenter().Height(50).Text($"{AddOD_E.Text}").FontSize(10);
+                            tabla.Cell().Padding(0).Border(1).AlignCenter().Height(50).Text($"{DipOD_E.Text}").FontSize(10);
+                            tabla.Cell().Padding(0).Border(1).AlignCenter().Height(50).Text($"{AlturaOD_E.Text}").FontSize(10);
+
+                            // Fila OS
+                            tabla.Cell().Row(2).Column(0).Background("#257272").Border(1).AlignCenter().Height(50).Padding(3).Text("OS").FontColor("#fff");
+                            tabla.Cell().Padding(0).Border(1).AlignCenter().Height(50).Text($"{AddOI_E.Text}").FontSize(10);
+                            tabla.Cell().Padding(0).Border(1).AlignCenter().Height(50).Text($"{DipOI_E.Text}").FontSize(10);
+                            tabla.Cell().Padding(0).Border(1).AlignCenter().Height(50).Text($"{AlturaOI_E.Text}").FontSize(10);
+                        });
+                        col1.Spacing(50);
+
+                        // Agrega la sección de Antecedentes y Tipo de Lente
+                        col1.Item().Text($"Antecedentes: {Antecedentes_E.Text}");
+
+                        col1.Spacing(50);
+
+                        col1.Item().Text($"Tipo de Lentes: {TipoL.Text}");
+                    });
+
+
+
+                    page.Footer()
+                        .AlignRight()
+                        .Text(txt =>
+                        {
+                            txt.Span("Pagina ").FontSize(10);
+                            txt.CurrentPageNumber().FontSize(10);
+                            txt.Span(" de ").FontSize(10);
+                            txt.TotalPages().FontSize(10);
+                        });
+
+
+                });
+
+
+            }).GeneratePdf();
+
+
+            // Guardar el archivo PDF en el almacenamiento de documentos
+            File.WriteAllBytes(filePath, data);
+
+            // Mostrar mensaje de éxito
+            DisplayAlert("Éxito", "El archivo PDF se ha guardado correctamente en Mis Documentos.", "OK");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error al generar el PDF: {ex.Message}");
+        }
+    }
+
+
+
 
     // Método para limpiar los controles de entrada después de agregar una consulta
     void LimpiarControlesEntrada()
@@ -142,20 +286,17 @@ public partial class frmConsulta : ContentPage
 
     private void OnBuscarConsultaClicked(object sender, EventArgs e)
     {
+        string searchText = S_Client.Text;
+
         if (S_Client.Text != null)
         {
             try
             {
-                // Obtén el texto del Entry de búsqueda
-                string searchText = S_Client.Text;
 
                 // Llama al método BuscarClientesPorNombre de SQLiteHelper.Instance
-                var resultados = SQLiteHelper.Instance.BuscarClientesPorNombre(searchText);
+                var resultados = SQLiteHelper.Instance.SearchConsul_Name(searchText);
 
-                // Muestra los resultados en el ListView independiente
                 lvConsulta.ItemsSource = resultados;
-
-                // Hacer visible el ListView de clientes
             }
             catch (Exception ex)
             {

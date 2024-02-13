@@ -13,9 +13,7 @@ namespace AppOptica.Forms
 {
     public class Consulta
     {
-        [PrimaryKey, AutoIncrement]
         public int IdCon { get; set; }
-
         public DateTime FechaC { get; set; }
         public int Cliente_ID { get; set; }
         public string Motivo { get; set; }

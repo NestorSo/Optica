@@ -17,6 +17,8 @@ namespace AppOptica.Model
         ObservableCollection<Consulta> consultas;
 
 
+
+
         public ConsultaViewModel(ObservableCollection<Consulta> consultas)
         {
             this.consultas = consultas ?? throw new ArgumentNullException(nameof(consultas));

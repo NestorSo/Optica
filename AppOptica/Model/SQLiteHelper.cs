@@ -48,7 +48,7 @@ namespace AppOptica.Model
                 cmdConsulta.ExecuteNonQuery();
 
                 // Crear la tabla Consulta_Ant
-                string createTableConsultaAntQuery = "CREATE TABLE IF NOT EXISTS Consulta_Ant (IdConAnt INTEGER PRIMARY KEY AUTOINCREMENT, IdCon INT, FechaC DATETIME, Cliente_ID INT, Motivo TEXT  , Antecedentes TEXT  ,TipoL TEXT  , AddODOld FLOAT, AddOIOld FLOAT, DipODOld FLOAT, DipOIOld FLOAT, AlturaODOld FLOAT, AlturaOIOld FLOAT)";
+                string createTableConsultaAntQuery = "CREATE TABLE IF NOT EXISTS Consulta_Ant (IdConAnt INTEGER PRIMARY KEY AUTOINCREMENT, IdCon INT, FechaC DATETIME, Cliente_ID INT, Motivo TEXT  , Antecedentes TEXT  ,TipoL TEXT  , AddODOld FLOAT, AddOIOld FLOAT, DipODOld FLOAT, DipOIOld FLOAT, AlturaODOld FLOAT, AlturaOIOld FLOAT, FOREIGN KEY (Cliente_ID) REFERENCES Clientes(Cliente_ID))";
                 SQLiteCommand cmdConsultaAnt = new SQLiteCommand(createTableConsultaAntQuery, connection);
                 cmdConsultaAnt.ExecuteNonQuery();
 
@@ -305,6 +305,60 @@ namespace AppOptica.Model
 
             return resultados;
         }
+
+        public List<Consulta> SearchConsul_Name(string nombre)
+        {
+            List<Consulta> resultados = new List<Consulta>();
+
+            using (SQLiteConnection connection = GetConnection())
+            {
+                connection.Open();
+                string query = @"SELECT 
+	                                CS.IdCon, 
+	                                CS.FechaC, 
+	                                CS.Cliente_ID,  
+	                                CS.Motivo, 
+	                                CS.Antecedentes, 
+	                                CS.TipoL, 
+	                                CS.AddOD, 
+	                                CS.AddOI, 
+	                                CS.DipOD, 
+	                                CS.DipOI, 
+	                                CS.AlturaOD, 
+	                                CS.AlturaOI,
+	                                C.PNC 
+                            FROM Clientes C INNER JOIN Consulta CS ON C.Cliente_ID = CS.Cliente_ID
+                            WHERE PNC LIKE @nombre OR SNC LIKE @nombre OR PAC LIKE @nombre OR SAC LIKE @nombre";
+                SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        resultados.Add(new Consulta()
+                        {
+                            IdCon = int.Parse(reader["IdCon"].ToString()),
+                            FechaC = DateTime.Parse(reader["FechaC"].ToString()),
+                            Cliente_ID = int.Parse(reader["Cliente_ID"].ToString()),
+                            Motivo = reader["Motivo"].ToString(),
+                            Antecedentes = reader["Antecedentes"].ToString(),
+                            TipoL = reader["TipoL"].ToString(),
+                            AddOD = float.Parse(reader["AddOD"].ToString()),
+                            AddOI = float.Parse(reader["AddOI"].ToString()),
+                            DipOD = float.Parse(reader["DipOD"].ToString()),
+                            DipOI = float.Parse(reader["DipOI"].ToString()),
+                            AlturaOD = float.Parse(reader["AlturaOD"].ToString()),
+                            AlturaOI = float.Parse(reader["AlturaOI"].ToString())
+                        });
+                    }
+                    connection.Close();
+                }
+            }
+
+            return resultados;
+        }
+
         #endregion
 
         #region General
@@ -325,15 +379,26 @@ namespace AppOptica.Model
                            C.PAC,
                            C.SAC,
                            CA.FechaC,
-                           CA.AddOD,
-                           CA.AddOI,
-                           CA.DipOD,
-                           CA.DipOI,
-                           CA.AlturaOD,
-                           CA.AlturaOI,
-                           CA.TipoL
+                           CA.AddODOld,
+                           CA.AddOIOld,
+                           CS.AddOD,
+                           CS.AddOI,
+                           CS.DipOD,
+                           CS.DipOI,
+                           CS.AlturaOD,
+                           CS.AlturaOI,
+                           CS.TipoL
                        FROM Clientes C
-                       INNER JOIN Consulta CA ON C.Cliente_ID = CA.Cliente_ID";
+                       INNER JOIN Consulta CS ON C.Cliente_ID = CS.Cliente_ID
+                       INNER JOIN Consulta_Ant CA ON C.Cliente_ID = CA.Cliente_ID 
+
+                        INNER JOIN (
+                            SELECT Cliente_ID, MAX(IdConAnt) as MaxIdConAnt
+                            FROM Consulta_Ant
+                            GROUP BY Cliente_ID
+                        ) CA_Max ON CA.Cliente_ID = CA_Max.Cliente_ID AND CA.IdConAnt = CA_Max.MaxIdConAnt
+
+                        GROUP BY C.Cliente_ID";
 
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
 
@@ -348,12 +413,14 @@ namespace AppOptica.Model
                             PAC = reader["PAC"].ToString(),
                             SAC = reader["SAC"].ToString(),
                             FechaC = Convert.ToDateTime(reader["FechaC"]),
-                            AddOD = float.Parse(reader["AddODOld"].ToString()),
-                            AddOI = float.Parse(reader["AddOIOld"].ToString()),
-                            DipOD = float.Parse(reader["DipODOld"].ToString()),
-                            DipOI = float.Parse(reader["DipOIOld"].ToString()),
-                            AlturaOD = float.Parse(reader["AlturaODOld"].ToString()),
-                            AlturaOI = float.Parse(reader["AlturaOIOld"].ToString()),
+                            AddOD_Old = float.Parse(reader["AddODOld"].ToString()),
+                            AddOI_Old = float.Parse(reader["AddOIOld"].ToString()),
+                            AddOD = float.Parse(reader["AddOD"].ToString()),
+                            AddOI = float.Parse(reader["AddOI"].ToString()),
+                            DipOD = float.Parse(reader["DipOD"].ToString()),
+                            DipOI = float.Parse(reader["DipOI"].ToString()),
+                            AlturaOD = float.Parse(reader["AlturaOD"].ToString()),
+                            AlturaOI = float.Parse(reader["AlturaOI"].ToString()),
                             TipoL = reader["TipoL"].ToString()
                         });
                     }
@@ -371,21 +438,30 @@ namespace AppOptica.Model
             {
                 connection.Open();
                 string query = @"SELECT 
-                   C.PNC,
-                   C.SNC,
-                   C.PAC,
-                   C.SAC,
-                   CA.FechaC,
-                   CA.AddOD,
-                   CA.AddOI,
-                   CA.DipOD,
-                   CA.DipOI,
-                   CA.AlturaOD,
-                   CA.AlturaOI,
-                   CA.TipoL
-               FROM Clientes C
-               INNER JOIN Consulta_Ant CA ON C.Cliente_ID = CA.Cliente_ID
-               WHERE C.PNC LIKE @nombre OR C.SNC LIKE @nombre OR C.PAC LIKE @nombre OR C.SAC LIKE @nombre";
+                           C.PNC,
+                           C.SNC,
+                           C.PAC,
+                           C.SAC,
+                           CA.FechaC,
+                           CA.AddODOld,
+                           CA.AddOIOld,
+                           CS.AddOD,
+                           CS.AddOI,
+                           CS.DipOD,
+                           CS.DipOI,
+                           CS.AlturaOD,
+                           CS.AlturaOI,
+                           CS.TipoL
+                       FROM Clientes C
+                       INNER JOIN Consulta CS ON C.Cliente_ID = CS.Cliente_ID
+                       INNER JOIN Consulta_Ant CA ON C.Cliente_ID = CA.Cliente_ID
+                        INNER JOIN (
+                            SELECT Cliente_ID, MAX(IdConAnt) as MaxIdConAnt
+                            FROM Consulta_Ant
+                            GROUP BY Cliente_ID
+                        ) CA_Max ON CA.Cliente_ID = CA_Max.Cliente_ID AND CA.IdConAnt = CA_Max.MaxIdConAnt
+               WHERE C.PNC LIKE @nombre OR C.SNC LIKE @nombre OR C.PAC LIKE @nombre OR C.SAC LIKE @nombre
+                       GROUP BY C.Cliente_ID";
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
                 cmd.Parameters.AddWithValue("@nombre", $"%{nombre}%");
 
@@ -399,13 +475,15 @@ namespace AppOptica.Model
                             SNC = reader["SNC"].ToString(),
                             PAC = reader["PAC"].ToString(),
                             SAC = reader["SAC"].ToString(),
-                            FechaC = DateTime.Parse(reader["FechaC"].ToString()),
-                            AddOD = float.Parse(reader["AddODOld"].ToString()),
-                            AddOI = float.Parse(reader["AddOIOld"].ToString()),
-                            DipOD = float.Parse(reader["DipODOld"].ToString()),
-                            DipOI = float.Parse(reader["DipOIOld"].ToString()),
-                            AlturaOD = float.Parse(reader["AlturaODOld"].ToString()),
-                            AlturaOI = float.Parse(reader["AlturaOIOld"].ToString()),
+                            FechaC = Convert.ToDateTime(reader["FechaC"]),
+                            AddOD_Old = float.Parse(reader["AddODOld"].ToString()),
+                            AddOI_Old = float.Parse(reader["AddOIOld"].ToString()),
+                            AddOD = float.Parse(reader["AddOD"].ToString()),
+                            AddOI = float.Parse(reader["AddOI"].ToString()),
+                            DipOD = float.Parse(reader["DipOD"].ToString()),
+                            DipOI = float.Parse(reader["DipOI"].ToString()),
+                            AlturaOD = float.Parse(reader["AlturaOD"].ToString()),
+                            AlturaOI = float.Parse(reader["AlturaOI"].ToString()),
                             TipoL = reader["TipoL"].ToString()
                         });
                     }
@@ -419,10 +497,6 @@ namespace AppOptica.Model
 
 
         #endregion
-
-
-
-
 
 
     }

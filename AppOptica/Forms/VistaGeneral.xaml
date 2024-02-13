@@ -29,9 +29,9 @@
         </Grid.ColumnDefinitions>
 
 
-        <Entry x:Name="S_Client" Placeholder="Buscar Cliente" IsReadOnly="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="13" Margin="0,0,5,0"/>
+        <Entry x:Name="S_Client" Placeholder="Buscar Cliente" IsReadOnly="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="14" Margin="0,0,5,0"/>
 
-        <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0" />
+        <Button Text="Regresar" Clicked="OnRegresarClicked" Grid.Column="14" Grid.Row="3" Grid.ColumnSpan="2" VerticalOptions="End" HorizontalOptions="End" Margin="0,5,0,0" />
         <Button Text="Buscar" Clicked="OnBuscarClicked" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Margin="0,5,0,0" />
         <Button Text="Limpiar" Clicked="OnLimpiarClicked" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" Margin="0,5,0,0" />
 
@@ -52,19 +52,23 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Label Text="Primer Nombre" TextColor="Black" Grid.Column="0" Margin="5"/>
-                        <Label Text="Seguendo Nombre" TextColor="Black" Grid.Column="1" Margin="5"/>
+                        <Label Text="Segundo Nombre" TextColor="Black" Grid.Column="1" Margin="5"/>
                         <Label Text="Primer Apellido" TextColor="Black" Grid.Column="2" Margin="5"/>
                         <Label Text="Segundo Apellido" TextColor="Black" Grid.Column="3" Margin="5"/>
-                        <Label Text="FechaConsulta_Anterior" TextColor="Black" Grid.Column="4" Margin="5"/>
-                        <Label Text="TipoLente_Antrior" TextColor="Black" Grid.Column="5" Margin="5"/>
-                        <Label Text="ADD_OD_Anterior" TextColor="Black" Grid.Column="6" Margin="5"/>
-                        <Label Text="ADD_OI_Anterior" TextColor="Black" Grid.Column="7" Margin="5"/>
-                        <Label Text="DIP_OD_Anterior" TextColor="Black" Grid.Column="8" Margin="5"/>
-                        <Label Text="DIP_OI_Anterior" TextColor="Black" Grid.Column="9" Margin="5"/>
-                        <Label Text="AlturaOD_Anterior" TextColor="Black" Grid.Column="10" Margin="5"/>
-                        <Label Text="AlturaOI_Anterior" TextColor="Black" Grid.Column="12" Margin="5"/>
+                        <Label Text="FC_Anterior" TextColor="Black" Grid.Column="4" Margin="5"/>
+                        <Label Text="ADD_OD Ant" TextColor="Black" Grid.Column="5" Margin="5"/>
+                        <Label Text="ADD_OI Ant" TextColor="Black" Grid.Column="6" Margin="5"/>
+                        <Label Text="ADD_OD Act" TextColor="Black" Grid.Column="7" Margin="5"/>
+                        <Label Text="ADD_OI Act" TextColor="Black" Grid.Column="8" Margin="5"/>
+                        <Label Text="DIP_OD Act" TextColor="Black" Grid.Column="9" Margin="5"/>
+                        <Label Text="DIP_OI Act" TextColor="Black" Grid.Column="10" Margin="5"/>
+                        <Label Text="Alt_OD Act" TextColor="Black" Grid.Column="11" Margin="5"/>
+                        <Label Text="Alt_OI Act" TextColor="Black" Grid.Column="12" Margin="5"/>
+                        <Label Text="Tipo Lente" TextColor="Black" Grid.Column="13" Margin="5"/>
                     </Grid>
                 </Border>
             </ListView.Header>
@@ -84,43 +88,52 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <Label Text="{Binding PNC}" Grid.Column="0" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
                             <Label Text="{Binding SNC}" Grid.Column="1" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
                             <Label Text="{Binding PAC}" Grid.Column="2" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
                             <Label Text="{Binding SAC}" Grid.Column="3" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
                             <Label Text="{Binding FechaC}" Grid.Column="4" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
-                            <Label Text="{Binding TipoL}" Grid.Column="5" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="6" VerticalOptions="End" />
+                            <Label Text="{Binding AddOD_Old}" Grid.Column="5" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
-                            <Label Text="{Binding AddODOld}" Grid.Column="6" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <Label Text="{Binding AddOI_Old}" Grid.Column="6" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
-                            <Label Text="{Binding AddOIOld}" Grid.Column="7" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="9" VerticalOptions="End" />
+                            <Label Text="{Binding AddOD}" Grid.Column="7" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
-                            <Label Text="{Binding DipODOld}" Grid.Column="8" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="10" VerticalOptions="End" />
+                            <Label Text="{Binding AddOI}" Grid.Column="8" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
-                            <Label Text="{Binding DipOIOld}" Grid.Column="9" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="10" VerticalOptions="End" />
+                            <Label Text="{Binding DipOD}" Grid.Column="9" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
-                            <Label Text="{Binding AlturaODOld}" Grid.Column="10" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="11" VerticalOptions="End" />
+                            <Label Text="{Binding DipOI}" Grid.Column="10" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
-                            <Label Text="{Binding AlturaOIOld}" Grid.Column="11" HorizontalOptions="Center" />
-                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="11" VerticalOptions="End" />
+                            <Label Text="{Binding AlturaOD}" Grid.Column="11" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
+
+                            <Label Text="{Binding AlturaOI}" Grid.Column="12" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
+
+                            <Label Text="{Binding TipoL}" Grid.Column="13" HorizontalOptions="Center" />
+                            <BoxView Color="Black" HeightRequest="1" Grid.ColumnSpan="14" VerticalOptions="End" />
 
                         </Grid>
                     </ViewCell>
