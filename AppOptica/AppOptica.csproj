@@ -36,11 +36,27 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Title>AplicationOptica</Title>
+		<Company>$(Ismael y Nestor)</Company>
+		<Product>$(AppOptica)</Product>
+		<Description>Gestion de clientes de optica</Description>
+		<Copyright>Derechos reservados, Nestor e Ismael</Copyright>
+		<RepositoryUrl>https://github.com/NestorSo/Optica.git</RepositoryUrl>
+		<PackageReleaseNotes>Primera version incluye cosas basicas para la gestion</PackageReleaseNotes>
+		<GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+		<PackageCertificateThumbprint>F26DCDF8BB62E63455B5FD3067E27E0003FE362C</PackageCertificateThumbprint>
+		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+		<AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+		<AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
+		<GenerateTestArtifacts>True</GenerateTestArtifacts>
+		<AppInstallerUri>https://github.com/NestorSo/Optica.git</AppInstallerUri>
+		<HoursBetweenUpdateChecks>3360</HoursBetweenUpdateChecks>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\opticaicon.svg" Color="White" ForeGroundScale="0.65" BaseSize="128,128"/>
+		<MauiIcon Include="Resources\AppIcon\opticaicon.svg" Color="White" ForeGroundScale="0.65" BaseSize="128,128" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
